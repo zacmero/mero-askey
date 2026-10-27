@@ -1,47 +1,33 @@
 # Mero Askey — RTV9015VW
 
-Ethernet-first investigation of Zac's **Askey RTV9015VW (Vivo VDSL gateway)**.
+Investigation of the owner's Askey RTV9015VW. Goal: a genuine OS shell and a reproducible program of our own running natively. Vendor menus, browser JavaScript and a custom web UI do not satisfy that goal.
 
-**Objective: a genuine operating-system shell, then a tiny native program running in temporary storage.** An advanced web page, a vendor command menu, or JavaScript executed in the laptop browser does not satisfy that objective.
+## Firmware milestone — 2026-10-27
 
-## Start here
+The complete 8 MiB flash map and complete running image are captured, verified and saved in [firmware/](firmware/README.md), as explicitly requested by the owner.
 
-Read [HANDOFF.md](HANDOFF.md) for the current constraints and first bounded experiment. [Research sources](research/sources.md) separate other-unit findings from evidence on this device. [AGENTS.md](AGENTS.md) defines repository and experiment rules.
+| Artifact | Size | SHA-256 |
+| --- | --- | --- |
+| [Full flash](firmware/rtv9015vw-br_so_rtk_v6.1.8t-fullflash.bin) | 8388608 bytes | `e5c171d08d5c3131cd7b8a4c7180e3ac277408c8072b96e335495f3b68e1fc2f` |
+| [Running image](firmware/rtv9015vw-br_so_rtk_v6.1.8t-run-image.bin) | 2954688 bytes | `74ff08b030051cce67e4c637cbb46d7cc7dfd629e04271a9fb83ebab3cc76ad6` |
 
-## Baseline — 2026-10-26, America/Sao_Paulo
+Verification covers 8192 contiguous chunks, raw-response reassembly, independent calibration/header captures, eight hardware readbacks, image checksum/decompression and settings-container checks. The detached capture service finished successfully and logged out. **Device-side work for today is complete; the Askey may be powered off.**
 
-| Item | Status |
-| --- | --- |
-| Device identity | Askey RTV9015VW, identified in earlier owner label photographs |
-| Label power / manufacture | 12 V DC / 1 A; December 2018, as transcribed in the earlier photo review; verify supply polarity and connector before use |
-| Current host | Owner is using a Linux Mint laptop; active interface/IP not yet inventoried for this target |
-| Installed firmware / live IP / open services | **Unknown; not yet measured on the Askey** |
-| Advanced configuration | External exact-model lead; not yet reproduced here |
-| SSH, Telnet or Linux shell | **Not established** |
-| UART/flash/pinout | No measurements on this unit in this session |
-| Firmware image / recovery | Not acquired or validated |
+## Established access and runtime
 
-The repository was empty when this documentation request began. No Askey scan, login, configuration change or hardware connection was performed by this publication.
+- Model RTV9015VW, hardware UI revision `Rev:01`, firmware `BR_SO_RTK_V6.1.8t`, build `Feb 20 2017 19:16:25`, SDK `V1.2.1`, firmware family string `8671x`.
+- Native admin/support web access and Telnet login work after explicitly approved settings changes. The persistent changes are only expanded-menu flags and Telnet enablement.
+- Captured firmware identifies OSK with mixed big-endian MIPS32/MIPS16 code. Exact SoC/clock, physical RAM and a Linux/POSIX ABI remain unverified. The reported 22.719 MiB memory pool is not installed RAM capacity.
+- `sh` opens another vendor console, `XDSL>`. `id` and `uname -a` are rejected there. No genuine OS shell or arbitrary native program has run yet.
+- Static analysis explains CLI privileges and identifies native call/copy/checksum handlers, without exercising them. The reported backup-image slot is erased; working recovery is not demonstrated.
 
-## Why this is the immediate target
+## Read next
 
-The [MitraStar investigation](https://github.com/zacmero/mero-mitrastar) has two independent SPI blockers: the received CH341A shows approximately 5 V on a reported data output, and its supplied SOIC8 clip cannot seat around the crowded flash. The incoming ESP32 has not arrived, and female–female jumpers are still missing. Its [session record](https://github.com/zacmero/mero-mitrastar/blob/master/docs/experiments/mitra-hardware-020.md) and [buying list](https://github.com/zacmero/mero-mitrastar/blob/master/BUYING-LIST.md) preserve that work.
+- [Handoff](HANDOFF.md): authoritative state, operator constraints and next research questions.
+- [Verified specifications](docs/device-specs.md) and [manual Telnet guide](docs/telnet.md).
+- [Consolidated firmware analysis](research/firmware-analysis.md), with three detailed static-analysis reports.
+- [Open research leads](research/open-research-leads.md): live-session capability-field research remains **OPEN**, explicitly retained by the owner.
+- [Extracted primary-source leads](research/related-investigations.md) and [source index](research/sources.md).
+- [Full capture record](docs/experiments/askey-net-006.md) and [artifact manifest](firmware/manifest.json).
 
-Do **not** make this Askey software investigation wait for soldering equipment, clip replacement, or programmer repair. Start with the existing Ethernet cable, correct router supply and Mint laptop. A zero-purchase investigation is possible; an easy root shell is not promised.
-
-## First experiment: ASKEY-NET-001 — planned, not run
-
-Identify the directly connected Askey and laptop interface; preserve the laptop's control/internet path. Perform a bounded scan of likely local management ports and inspect the actual web firmware/status pages. If the verified address is the usual `192.168.15.1`, `/padrao` and `/saveconf.htm` are literature leads to inspect. They are not guaranteed endpoints on this firmware.
-
-Both Vivo routers may use the same default IP. Connect **one lab router at a time**, leave DSL/WAN disconnected, and verify the route/device identity before any probe. Never scan the household gateway by assumption.
-
-## Evidence layout
-
-```text
-HANDOFF.md             current plan, constraints and next test
-AGENTS.md              agent and safety rules
-research/sources.md    external references and applicability limits
-.local/                ignored captures, credentials and exports
-```
-
-Add reviewed experiment reports under `docs/experiments/` as actual results arrive. Keep configuration exports, cookies, passwords, raw traffic and proprietary firmware private. Do not commit device-label passwords or copy credentials from the MitraStar.
+The full-flash artifact is retained unredacted per the owner's explicit instruction. Other raw sessions, passwords, settings exports and intermediate analysis stay in ignored `.local/`. No firmware/bootloader write, factory reset, hardware connection or native payload execution occurred in this milestone. See [AGENTS.md](AGENTS.md) before further work.

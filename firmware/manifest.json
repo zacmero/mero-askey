@@ -1,0 +1,208 @@
+{
+  "device": {
+    "vendor": "Askey",
+    "model": "RTV9015VW",
+    "ui_hardware_revision": "Rev:01",
+    "firmware": "BR_SO_RTK_V6.1.8t"
+  },
+  "capture": {
+    "method": "read-only Telnet XDSL memory show",
+    "flash_base": "0xb4000000",
+    "flash_end_exclusive": "0xb4800000",
+    "chunk_bytes": 1024,
+    "pause_seconds": 0.05,
+    "full_flash_status": "complete",
+    "started_unix": 1793077397.8946407,
+    "completed_unix": 1793082875.3403845,
+    "data_sessions": 2,
+    "durable_service": "mero-askey-firmware-capture.service",
+    "service_result": "success",
+    "service_restarts": 0,
+    "strict_chunk_count": 8192,
+    "reconstructed_wire_hash_matches": true,
+    "handoff_prefix_bytes": 4215808,
+    "started_utc": "2026-10-27T05:03:17.894641+00:00",
+    "completed_utc": "2026-10-27T06:34:35.340384+00:00",
+    "duration_seconds": 5477.446
+  },
+  "artifacts": {
+    "running_image": {
+      "file": "rtv9015vw-br_so_rtk_v6.1.8t-run-image.bin",
+      "bytes": 2954688,
+      "payload_bytes": 2954624,
+      "sha256": "74ff08b030051cce67e4c637cbb46d7cc7dfd629e04271a9fb83ebab3cc76ad6",
+      "flash_offset": 65536,
+      "status": "complete",
+      "validation": [
+        "independently captured 64-byte header matches",
+        "complete compressed stream decodes with exact declared output size",
+        "only documented zero tail padding excluded from decoder input; original image bytes retained"
+      ]
+    },
+    "full_flash": {
+      "file": "rtv9015vw-br_so_rtk_v6.1.8t-fullflash.bin",
+      "status": "complete",
+      "bytes": 8388608,
+      "sha256": "e5c171d08d5c3131cd7b8a4c7180e3ac277408c8072b96e335495f3b68e1fc2f",
+      "flash_offset": 0,
+      "validation": [
+        "All 8192 addressed 1 KiB chunks were received and parsed.",
+        "Raw response reassembly exactly matches the completed file.",
+        "Independent 16 KiB calibration and 64-byte header match.",
+        "Eight independent 1 KiB hardware readback samples match."
+      ]
+    }
+  },
+  "offline_runtime": {
+    "bytes": 9752040,
+    "sha256": "b104789b795630eee7de1b50d64e49710535221f8baa6652021af6d00abb3941",
+    "decoder": "installed 7z",
+    "decoder_exit": 0,
+    "zero_tail_padding": 1
+  },
+  "limitations": [
+    "The full map was read sequentially over time, not atomically.",
+    "Eight hardware samples and format/checksum validation are not a second independent 8 MiB capture.",
+    "The reported backup-image slot is erased; no working automatic fallback or restoration has been demonstrated.",
+    "The full-flash file has not been validated as a web-upgrade or restoration file; destination and bootloader constraints remain unresolved.",
+    "No firmware or native machine code was executed, flashed or uploaded."
+  ],
+  "verification": {
+    "wire_audit": {
+      "bytes": 8388608,
+      "chunks": 8192,
+      "all_addresses_contiguous": true,
+      "raw_response_reassembly_matches_file": true,
+      "sha256": "e5c171d08d5c3131cd7b8a4c7180e3ac277408c8072b96e335495f3b68e1fc2f",
+      "events": {
+        "connected": 2,
+        "chunk": 8192,
+        "logged_out": 2,
+        "complete": 1
+      },
+      "verified_unix": 1793083090.0929844
+    },
+    "hardware_readback": {
+      "full_sha256": "e5c171d08d5c3131cd7b8a4c7180e3ac277408c8072b96e335495f3b68e1fc2f",
+      "samples": [
+        {
+          "flash_offset": 0,
+          "address": "0xb4000000",
+          "bytes": 1024,
+          "sha256": "2c047265c4588ad051f11370ed840b9bdc643d2e59254d870e2265d2846081d2",
+          "matches": true
+        },
+        {
+          "flash_offset": 20480,
+          "address": "0xb4005000",
+          "bytes": 1024,
+          "sha256": "7b2554709f2f75129d1ebd700917d55b7d399ef86d0bf26a7be537132244c155",
+          "matches": true
+        },
+        {
+          "flash_offset": 65536,
+          "address": "0xb4010000",
+          "bytes": 1024,
+          "sha256": "54b10e9443a5234a5a01cf5a46dcc39241ac263dae67142ae053053b6d71b397",
+          "matches": true
+        },
+        {
+          "flash_offset": 3018752,
+          "address": "0xb42e1000",
+          "bytes": 1024,
+          "sha256": "6ae8ff24daf380418f9e007d08e7a2fa2fed3882f87484efa41222b337bddcbb",
+          "matches": true
+        },
+        {
+          "flash_offset": 4161536,
+          "address": "0xb43f8000",
+          "bytes": 1024,
+          "sha256": "701dc1d67c503885eb7d1b5d6f2f0445704e154122daba9b08ae65ec1b23683e",
+          "matches": true
+        },
+        {
+          "flash_offset": 4194304,
+          "address": "0xb4400000",
+          "bytes": 1024,
+          "sha256": "5f4ecdb7b71c3e403983fe405cddcdc2f2576b655fdb3e80d94a6f7c32e58bc2",
+          "matches": true
+        },
+        {
+          "flash_offset": 8257536,
+          "address": "0xb47e0000",
+          "bytes": 1024,
+          "sha256": "2c08545bab2fe034d4549c27a084c867aa2e92c968d91283d3d1edfa2c6c3dd0",
+          "matches": true
+        },
+        {
+          "flash_offset": 8387584,
+          "address": "0xb47ffc00",
+          "bytes": 1024,
+          "sha256": "5f4ecdb7b71c3e403983fe405cddcdc2f2576b655fdb3e80d94a6f7c32e58bc2",
+          "matches": true
+        }
+      ],
+      "all_match": true,
+      "verified_unix": 1793083032.6460009,
+      "method": "eight independent new Telnet reads, sequential clean login/logout"
+    },
+    "regions": [
+      {
+        "name": "boot_and_hardware_area",
+        "offset": 0,
+        "end_exclusive": 65536,
+        "bytes": 65536,
+        "sha256": "1262eb9671c35d38b10f2b0222a2a9baabc1c61cfc7c912a8743a85f46c43000",
+        "all_ff": false
+      },
+      {
+        "name": "hardware_config",
+        "offset": 20480,
+        "end_exclusive": 24576,
+        "bytes": 4096,
+        "sha256": "de1a6be4730397aab29b827fb796e67460686dc424d606eef009494ea077b747",
+        "all_ff": false
+      },
+      {
+        "name": "running_image",
+        "offset": 65536,
+        "end_exclusive": 3020224,
+        "bytes": 2954688,
+        "sha256": "74ff08b030051cce67e4c637cbb46d7cc7dfd629e04271a9fb83ebab3cc76ad6",
+        "all_ff": false
+      },
+      {
+        "name": "flash_files",
+        "offset": 4161536,
+        "end_exclusive": 4194304,
+        "bytes": 32768,
+        "sha256": "9dcf84ba206c1baf281382fe6a8f9f2ce8a43fce2c4f75c6b1f7e17cd5ea6b8c",
+        "all_ff": false
+      },
+      {
+        "name": "reported_backup_image_slot",
+        "offset": 4194304,
+        "end_exclusive": 8257536,
+        "bytes": 4063232,
+        "sha256": "a1356e82e5efa5c32ce7f1a8d39b2a19681b7aafa04d0965f29ccb0276f51e9a",
+        "all_ff": true
+      },
+      {
+        "name": "backup_configuration",
+        "offset": 8257536,
+        "end_exclusive": 8323072,
+        "bytes": 65536,
+        "sha256": "019ecc4de8ac7c16b16ff4b41916fcce7fe18aae3b44de22364ef810530202ce",
+        "all_ff": false
+      },
+      {
+        "name": "configuration",
+        "offset": 8323072,
+        "end_exclusive": 8388608,
+        "bytes": 65536,
+        "sha256": "019ecc4de8ac7c16b16ff4b41916fcce7fe18aae3b44de22364ef810530202ce",
+        "all_ff": false
+      }
+    ]
+  }
+}

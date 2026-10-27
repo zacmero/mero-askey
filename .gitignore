@@ -8,6 +8,9 @@
 *.pcapng
 *.dump
 *.bin
+# Explicit owner request: retain only these verified final firmware artifacts in Git.
+!firmware/rtv9015vw-br_so_rtk_v6.1.8t-fullflash.bin
+!firmware/rtv9015vw-br_so_rtk_v6.1.8t-run-image.bin
 romfile.cfg
 config.img
 *.key

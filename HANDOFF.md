@@ -2,6 +2,43 @@
 
 Prepared **2026-10-26, America/Sao_Paulo**. Target: Zac's **Askey RTV9015VW** Vivo router. Repository: `zacmero/mero-askey`, branch `main`.
 
+## Current session — 2026-10-27: firmware milestone complete
+
+**All device-side work for today is finished. The owner asked to turn the Askey off; it is safe to do so. No capture, verification, write or upgrade operation is still running. Actual power-off was not observed by the agent.**
+
+Read [firmware manifest](firmware/manifest.json), [ASKEY-NET-006](docs/experiments/askey-net-006.md), and [consolidated analysis](research/firmware-analysis.md). Earlier initialization-only statements below are historical.
+
+### Saved artifacts and verification
+
+- `firmware/rtv9015vw-br_so_rtk_v6.1.8t-fullflash.bin`:8388608 bytes, SHA-256 `e5c171d08d5c3131cd7b8a4c7180e3ac277408c8072b96e335495f3b68e1fc2f`.
+- `firmware/rtv9015vw-br_so_rtk_v6.1.8t-run-image.bin`:2954688 bytes, SHA-256 `74ff08b030051cce67e4c637cbb46d7cc7dfd629e04271a9fb83ebab3cc76ad6`.
+- Final firmware is in the repository per explicit owner instruction, including unredacted settings in the full snapshot. All other raw/private evidence remains `.local/`.
+- Strict contiguous 8192-chunk capture, complete wire-log reconstruction, two matching 16 KiB calibration reads, independent 64-byte header and eight matching 1 KiB hardware readbacks. Image checksum/decompression and all settings containers validate.
+- Service `mero-askey-firmware-capture.service` finished with Result=success, ExecMainStatus=0, NRestarts=0, with clean logout. It had an independent systemd parent and pre-existing Linger=yes. Checkpoint `.local/askey-net-006/fullflash-pass1.bin.json` is complete=true. No duplicate/resume read is needed.
+- Capture took 5477.4 seconds, across a verified clean handoff at 4215808 bytes. Private raw source and logs remain under `.local/askey-net-006/`.
+
+### Actual device and access state
+
+- RTV9015VW, Rev:01, BR_SO_RTK_V6.1.8t, build Feb 20 2017 19:16:25, SDK V1.2.1, family 8671x. Exact physical SoC/clock/RAM unverified; memory-pool total is not physical RAM.
+- Direct laptop path was `cris@192.168.1.80`, existing `/home/zacmero/.ssh/mero_stb_isolated_lab` key, strict host checking. Ethernet enp6s0/192.168.15.3 reached the verified Askey at 192.168.15.1. Wi-Fi preserved control; mero-machine itself had no direct lab route. Re-identify route/neighbor at the next powered-on session; do not assume DHCP/interface state persists.
+- Known owner password remains `.local/router-login.json`. Normal admin web uses loginfrompadrao=0; advanced support uses 1 with the same label password. No credential guessing.
+- Only explicitly approved persistent edits were ENABLE_ADVANCE_PAGE=1, PADRAO_WIFI_ONLY=0 and TELNET_STATE=1. SSH/account priorities/ACL/WAN settings were not changed. Telnet remains enabled in saved configuration as requested.
+- Telnet `$` and `XDSL>` are vendor consoles. sh/quit navigation does not establish a POSIX shell; id/uname rejected. No custom native binary has executed.
+- OSK and mixed big-endian MIPS32/MIPS16 are proven from the captured runtime. Decoded runtime is 9752040 bytes, hash `b104789b795630eee7de1b50d64e49710535221f8baa6652021af6d00abb3941`.
+
+### Analysis and open paths
+
+Three offline agents produced [CLI](research/firmware-cli-analysis.md), [runtime](research/firmware-runtime-analysis.md) and [image/web/recovery](research/firmware-image-analysis.md) reports. All work was offline; no agent contacted the device.
+
+- ENABLE_ADVANCE_PAGE is a broader access mode and is rendered as ServiceMode. Modes 0/1 can remove CLI privilege; mode 2 selects admin menu and preserves account-derived bits at that gate. PRIORITY 2 retains only the weaker bit when not stripped; stronger native nodes require the bit assigned by PRIORITY 1. These are static conclusions, not applied changes or a shell demonstration.
+- Memory display is locally proven. Compiled memory store paths exist without the mapped CLI capability bits, but no live write target/rollback or safe native execution test has been established. Do not invent one from a help label.
+- Native callbacks have strict contracts: webdll calls an address and then its returned callback; loaddll copies a header-described body; chksum is not a loader. Allocation, lifetime, cache and ABI guarantees remain incomplete.
+- Entire backup-image slot 0x400000..0x7e0000 is erased. Runtime recovery code prefers valid primary and can clear backup; erasure alone is not a defect. No working restoration is demonstrated.
+- Current/backup settings are identical, checksum-valid and canonically match the approved export; decoded values stay private. Raw full-flash capture is not an approved web-upgrade image.
+- **The live CLI session-object/capability-field avenue remains OPEN.** Owner explicitly rejected discarding it after one automated optional follow-up was blocked. Preserve [open research leads](research/open-research-leads.md), existing evidence and missing ownership/lifetime questions for later work. That tool event is not a technical rejection of the path.
+
+No additional device action is authorized merely by these static findings. Finish today with repository reporting/commit/push, as explicitly requested. Next live work needs a concrete question and the existing operation-specific rules; no guessed credentials, settings, ABI, pinout or recovery procedure.
+
 ## 1. Mission and owner constraints
 
 Get an actual operating-system shell and then prove native code execution. Prioritize a bounded **Ethernet/software-only investigation using the equipment already present**. The owner wants practical progress toward shell access, not another custom browser interface or repeated unproductive multimeter instructions.
