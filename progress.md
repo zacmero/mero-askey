@@ -101,3 +101,11 @@
 - Full binary atomically promoted under firmware/, alongside complete run image and final manifest. Independent whole-slot/config-container/XML verification completed.
 - Owner explicitly requested commit and push, then asked to end device work and power off. Confirmed power-off safe because capture/verification sessions were complete. No further device operations planned today.
 - Current README/HANDOFF/specs/research notes finalized. Open live-session lead retained, not discarded. Final repository validation/commit/push follows.
+
+
+## Repository milestone delivered
+
+- Committed and pushed `b5cc63e` (`feat: archive verified Askey firmware`) to `origin/main`.
+- Verified the published remote SHA equals the local milestone commit. Both staged binary blobs match their documented SHA-256 values; parser, text-link, secret-exclusion, and whitespace checks passed.
+- Firmware binaries and reviewed reports are published. Raw sessions, private credentials, settings exports, and intermediate analysis remain in ignored `.local/`.
+- Device work is complete; the Askey may remain powered off. The live-session capability-field research road remains OPEN.

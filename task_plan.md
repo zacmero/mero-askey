@@ -13,7 +13,7 @@
 
 ## Final repository delivery
 
-Owner explicitly requested commit and push of the checked milestone. Run final link/hash/secret/whitespace checks, commit reviewed artifacts/docs/tool, push main, and verify origin/main equals local HEAD. No more device operations today.
+Completed final link/hash/secret/whitespace checks and parser self-check. Verified the staged firmware blobs against the artifact hashes. Committed and pushed milestone `b5cc63e` to `origin/main`; remote SHA and local HEAD matched, and the working tree was clean. This final reporting update records that delivery. No more device operations today.
 
 ## Future research, not discarded
 
