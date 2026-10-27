@@ -1,0 +1,22 @@
+# Private lab captures, credentials, configuration exports and firmware
+.local/
+.env
+.env.*
+!.env.example
+*credentials*.json
+*.pcap
+*.pcapng
+*.dump
+*.bin
+romfile.cfg
+config.img
+*.key
+*.pem
+
+# Generated code and editor caches
+__pycache__/
+*.py[cod]
+.venv/
+.serena/
+.DS_Store
+*.swp
