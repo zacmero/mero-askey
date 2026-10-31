@@ -105,6 +105,8 @@ A device trial also requires a verified temporary transfer/allocation mechanism,
 
 ## Bounded hardware-inventory lead
 
+**Live follow-up, 2026-10-31:** [ASKEY-NET-007](../docs/experiments/askey-net-007.md) measured the already sampled RAM global `0x8055a870` as `0x00016405` through one 16-byte display read. Low 16 bits `0x6405` match a branch described below. This updates the earlier “no device read” status; execution and field interpretation beyond this observation, exact marketed SoC, physical RAM and CPU clock remain unresolved. No direct MMIO read was performed.
+
 A follow-up static pass found one code-supported **RAM global containing a sampled hardware register**, but did not establish detected RAM size or CPU clock. The routine at physical `0x8004d200` reads a word from `0xb8000000` and stores the entire word at **`0x8055a870`** (`0x8004d20e`–`0x8004d21a`). It masks the low 16 bits for the first argument to diagnostic `ChipId: 0x%08x 0x%08x` (`0x804357d4`); the second printed value comes from `0xb8000024`. Literal words at `0x8004d37c`/`0x8004d380`/`0x8004d384` confirm these addresses. Subsequent code compares the masked ID with `0x0561`, `0x0705` and `0x6405`, selecting related initialization paths.
 
 Thus `0x8055a870` is a candidate for a later authorized read of an already sampled value in RAM, avoiding a direct MMIO access. The code's execution/completion and the meaning of each register field still require validation; this is not a detected CPU model. In the **firmware artifact**, that global's initializer is `0x0000ffff`, while other selection fields have compiled initializers. Those bytes are not a live-memory snapshot and must not be recorded as measured hardware. No device read was performed.

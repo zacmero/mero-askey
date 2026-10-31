@@ -51,3 +51,10 @@ Raw session: ignored `.local/askey-net-003/telnet-session.typescript`, SHA-256 `
 ## Firmware milestone
 
 Complete verified raw flash and running-image files are in [firmware/](../firmware/README.md). The complete snapshot shows an erased firmware backup slot, matching configuration copies and checksum-valid containers. No physical restoration has been tested. All device-side work for 2026-10-27 is finished; the owner may power the Askey off.
+
+
+## Live follow-up — 2026-10-31
+
+A single display read of the code-supported sampled chip-ID global at `0x8055a870` measured `0x00016405` (big-endian word). Its low 16 bits, `0x6405`, match an initialization branch in the captured firmware; this is not yet an exact SoC model, CPU clock or RAM-capacity identification. No direct MMIO access occurred.
+
+After an explicitly approved two-field native settings import/reboot, `ENABLE_ADVANCE_PAGE=2` and admin `PRIORITY=1` persisted exactly. Admin now reaches vendor prompt `XDSL#`; root help lists `webdll`, `loaddll`, `chksum`. Support web access still works. These handlers were not invoked, and OS shell/native execution remains unproven. See [ASKEY-NET-007](experiments/askey-net-007.md). Published firmware remains the original 2026-10-27 snapshot.

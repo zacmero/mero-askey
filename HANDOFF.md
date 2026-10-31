@@ -2,7 +2,19 @@
 
 Prepared **2026-10-26, America/Sao_Paulo**. Target: Zac's **Askey RTV9015VW** Vivo router. Repository: `zacmero/mero-askey`, branch `main`.
 
-## Current session — 2026-10-27: firmware milestone complete
+## Current session — 2026-10-31: privileged vendor CLI verified
+
+The owner resumed with the MSI connected to the Askey. Reverified Ethernet `enp6s0` / `192.168.15.3`, route to `192.168.15.1`, and the recorded LAN neighbor; Wi-Fi control remains intact. See [ASKEY-NET-007](docs/experiments/askey-net-007.md) for the complete record.
+
+- Telnet and the same firmware build survived the power cycle. One read of the code-supported chip-ID snapshot global `0x8055a870` measured `0x00016405`; low 16 bits `0x6405` match a firmware initialization branch. Exact marketed SoC/clock/physical RAM remain unresolved.
+- Fresh settings exactly matched the last approved export. The owner then explicitly authorized importing **ENABLE_ADVANCE_PAGE=2 and admin PRIORITY=1**, automatic reboot, and login/read-only help checks. Support priority remains 2; no other export fields changed.
+- The native import accepted the candidate and rebooted. Support web login/export returned; the export exactly matches candidate SHA-256 `4c5c8a2fe7c533aee6f7cff98ab2bd7e89345d8b9b8bbcface0d323d1cae7d44` (205061 bytes).
+- Admin Telnet `$` → `sh` now reaches **`XDSL#`**. Filtered root help lists **webdll, loaddll, chksum**. Latest sessions logged out cleanly. No native handler, memory write or payload was exercised. `#` is not proof of a POSIX shell.
+- Rollback `.local/askey-net-007/config-current.img`, SHA-256 `721cc151716e65c733f6f37d3ca18525b1d901380ca990355ed774d9716ff1b9`, is the fresh pre-change export. Restore through the known native support flow while management remains reachable; total-lockout recovery remains unproven. Do not automatically restore or reset.
+- Current private session evidence and applied settings are in `.local/askey-net-007/`. Existing published firmware binaries remain the original 2026-10-27 snapshot, not a dump of today's changed settings.
+- Next research: native allocation/ABI/lifetime/cache and callback-return contracts before executable tests. The live-session capability-field path remains **OPEN**, not discarded. No new privilege-field/memory-write experiment is authorized merely by today's help result.
+
+## Previous session — 2026-10-27: firmware milestone complete
 
 **All device-side work for today is finished. The owner asked to turn the Askey off; it is safe to do so. No capture, verification, write or upgrade operation is still running. Actual power-off was not observed by the agent.**
 

@@ -15,7 +15,9 @@ show status
 sh
 ```
 
-The second command enters `XDSL>`. These read-only commands were verified on this device:
+The second command now enters **`XDSL#`** after the owner's explicitly approved 2026-10-31 access-mode/account-priority change. Previously it entered `XDSL>`. Both are vendor-console prompts; `#` alone does not prove OS shell access. See [ASKEY-NET-007](experiments/askey-net-007.md).
+
+These read-only commands were verified on this device:
 
 ```text
 show version
@@ -26,6 +28,6 @@ show system flashlayout
 
 `show system memory` reports a memory pool, not installed RAM capacity. `sh` has not produced a POSIX shell: both `id` and `uname -a` are rejected inside `XDSL>` as well as the earlier outer-parser test.
 
-To leave: `quit` returns from `XDSL>` to `$`; `exit` logs out to the username prompt. Then press Ctrl+] and enter `quit` at `telnet>` to close the connection. Logging out alone leaves the TCP session open.
+To leave: `quit` returns from `XDSL#` (formerly `XDSL>`) to `$`; `exit` logs out to the username prompt. Then press Ctrl+] and enter `quit` at `telnet>` to close the connection. Logging out alone leaves the TCP session open.
 
 No new scan or settings change is needed to repeat these read-only observations. See [device specs](device-specs.md) and [ASKEY-NET-005](experiments/askey-net-005.md) for the flash-read lead. Avoid the `memory set`, reboot and configuration operations while exploring these status commands.

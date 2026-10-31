@@ -2,6 +2,10 @@
 
 Investigation of the owner's Askey RTV9015VW. Goal: a genuine OS shell and a reproducible program of our own running natively. Vendor menus, browser JavaScript and a custom web UI do not satisfy that goal.
 
+## Latest device result — 2026-10-31
+
+The MSI/Askey path is reverified. After an explicitly approved two-field settings import and reboot, admin Telnet now reaches **`XDSL#`**, and filtered help exposes **webdll, loaddll and chksum**. Support web access still works; the fresh export exactly matches the reviewed candidate. This is privileged vendor CLI access; no OS shell or custom native execution has been demonstrated. See [ASKEY-NET-007](docs/experiments/askey-net-007.md) and the [current handoff](HANDOFF.md).
+
 ## Firmware milestone — 2026-10-27
 
 The complete 8 MiB flash map and complete running image are captured, verified and saved in [firmware/](firmware/README.md), as explicitly requested by the owner.
@@ -18,8 +22,8 @@ Verification covers 8192 contiguous chunks, raw-response reassembly, independent
 - Model RTV9015VW, hardware UI revision `Rev:01`, firmware `BR_SO_RTK_V6.1.8t`, build `Feb 20 2017 19:16:25`, SDK `V1.2.1`, firmware family string `8671x`.
 - Native admin/support web access and Telnet login work after explicitly approved settings changes. The persistent changes are only expanded-menu flags and Telnet enablement.
 - Captured firmware identifies OSK with mixed big-endian MIPS32/MIPS16 code. Exact SoC/clock, physical RAM and a Linux/POSIX ABI remain unverified. The reported 22.719 MiB memory pool is not installed RAM capacity.
-- `sh` opens another vendor console, `XDSL>`. `id` and `uname -a` are rejected there. No genuine OS shell or arbitrary native program has run yet.
-- Static analysis explains CLI privileges and identifies native call/copy/checksum handlers, without exercising them. The reported backup-image slot is erased; working recovery is not demonstrated.
+- `sh` opens another vendor console: initially `XDSL>`, now `XDSL#` after the approved privilege settings. `id` and `uname -a` were rejected in the earlier restricted console; they were not retested in the latest experiment. No genuine OS shell or arbitrary native program has run yet.
+- Static analysis explains CLI privileges and identifies native call/copy/checksum handlers. Their appearance in privileged help is now verified; the handlers themselves remain unexercised. The reported backup-image slot is erased; working recovery is not demonstrated.
 
 ## Read next
 

@@ -1,5 +1,7 @@
 # Askey RTV9015VW — source index
 
+Local follow-up, 2026-10-31: [ASKEY-NET-007](../docs/experiments/askey-net-007.md) confirms persisted privileged CLI access after the owner's exact configuration approval, plus a measured chip-ID snapshot. These are new local results, not external source claims. Native execution remains unproven.
+
 Extracted main information and local applicability of the leads: [related investigations](related-investigations.md). The owner-requested full extraction is complete in [ASKEY-NET-006](../docs/experiments/askey-net-006.md); verified final artifacts are saved in [firmware/](../firmware/README.md).
 
 Analysis of the actual captured running image is now saved separately: [consolidated local findings](firmware-analysis.md). These local code-supported conclusions supersede related-device hypotheses where explicitly reproduced; neither a source report nor a hidden command name is proof of live native execution.

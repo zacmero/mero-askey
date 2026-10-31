@@ -34,6 +34,8 @@ The existing static report, offsets and private evidence remain retained. This l
 
 ## Other open questions
 
+2026-10-31 update: [ASKEY-NET-007](../docs/experiments/askey-net-007.md) measured the chip-ID snapshot global as `0x00016405` and, through an explicitly approved configuration import, reached `XDSL#` with native handler names in filtered help. These results do not close the session-object research road or establish safe native execution.
+
 - Exact live ChipId snapshot interpretation, installed RAM capacity and CPU clock; do not substitute compile-time support strings for hardware measurements.
 - OSK native allocation, calling convention, lifetime and cache contracts needed for a program of our own.
 - Full updater/bootloader destination and range validation beyond the already mapped bounded checks.

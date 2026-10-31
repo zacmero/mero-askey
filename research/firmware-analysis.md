@@ -2,6 +2,12 @@
 
 Reviewed 2026-10-27. This summarizes the captured running image, not a sibling model's firmware. The complete running component is verified and saved in `firmware/`; the full 8 MiB flash capture and its independent verification are complete. No target code, write operation or new configuration change was performed for this analysis.
 
+## Live follow-up — 2026-10-31
+
+[ASKEY-NET-007](../docs/experiments/askey-net-007.md) confirms the access-mode/account-priority prediction: the owner explicitly approved `ENABLE_ADVANCE_PAGE=2` and admin `PRIORITY=1`; the exact candidate persisted after native import/reboot, support management remained available, and admin now reaches `XDSL#`. Filtered root help lists `webdll`, `loaddll` and `chksum`. They were not invoked. The original static account-state descriptions below refer to the 2026-10-27 snapshot, not today's changed configuration. No OS shell or custom native execution is claimed.
+
+The code-supported sampled hardware global `0x8055a870` was read once and contained `0x00016405`. Exact SoC model, CPU clock and physical RAM remain unresolved. The published flash snapshot is unchanged.
+
 ## Artifacts and independent checks
 
 | Artifact | Size | SHA-256 |

@@ -109,3 +109,13 @@
 - Verified the published remote SHA equals the local milestone commit. Both staged binary blobs match their documented SHA-256 values; parser, text-link, secret-exclusion, and whitespace checks passed.
 - Firmware binaries and reviewed reports are published. Raw sessions, private credentials, settings exports, and intermediate analysis remain in ignored `.local/`.
 - Device work is complete; the Askey may remain powered off. The live-session capability-field research road remains OPEN.
+
+
+## 2026-10-31 — Resumed live work; privileged vendor CLI verified
+
+- Reverified MSI SSH, Ethernet route/neighbor and preserved Wi-Fi control. Telnet and the same firmware build survived power cycling.
+- Measured sampled chip-ID RAM global `0x8055a870`: `0x00016405`. Exact SoC/clock/physical RAM remain unresolved.
+- Exported current rollback; it exactly matched the previous approved configuration. Prepared and validated the two-byte candidate: access mode 2, admin priority 1. Owner explicitly approved import, automatic reboot and login/read-only help tests.
+- First multipart attempt had file ordering unlike the native form, returned headerless HTML, and left the export unchanged. Corrected native-order request passed independent MIME payload checks, received HTTP 200/Autoboot, and persisted exactly after reboot. No blind duplicate import.
+- Support web access remains functional. Admin Telnet enters `XDSL#`; adjusted reader for the changed prompt. Latest sessions logged out cleanly. Filtered root help lists webdll/loaddll/chksum; none was invoked.
+- Current results and rollback hashes recorded in ASKEY-NET-007 and handoff. No firmware write, memory write, custom payload or OS shell result. Published firmware stays unchanged. Live-session capability-field research remains OPEN.

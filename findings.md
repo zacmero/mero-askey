@@ -17,3 +17,11 @@ Static code maps access mode, account priorities, CLI capability gates and nativ
 ## Durable reports and open path
 
 research/firmware-analysis.md links three exact-image reports; related-investigations.md extracts primary leads. research/open-research-leads.md retains the live-session capability-field avenue as OPEN, per owner direction; automated review of one optional follow-up is not technical rejection. Raw data/credentials/decoded settings stay .local/, except explicitly requested final firmware artifacts.
+
+
+## 2026-10-31 live findings
+
+- Code-supported sampled chip-ID global measured `0x00016405`; low 16 bits `0x6405` match a firmware branch. Exact chip/clock/RAM identification remains incomplete.
+- Explicitly approved access mode 2/admin priority 1 import persisted byte-for-byte. Support web access survives; admin Telnet now reaches `XDSL#`.
+- Filtered root help exposes `webdll`, `loaddll`, `chksum`. Privileged vendor CLI access is established; native handler execution and OS shell remain unproven.
+- Full details, actual hashes, rollback and protocol correction: [ASKEY-NET-007](docs/experiments/askey-net-007.md). Live-session capability-field avenue remains OPEN.

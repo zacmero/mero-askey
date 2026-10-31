@@ -1,3 +1,11 @@
+# 2026-10-31 resumption — bounded CLI experiment complete
+
+Reverified the physical network path, retained a fresh rollback, and applied the exact owner-approved access-mode/admin-priority candidate through native import. Verified reboot recovery, exact persisted export, support management, admin `XDSL#` and filtered native-command help. No native handler or memory write was exercised. See [ASKEY-NET-007](docs/experiments/askey-net-007.md).
+
+Next unresolved work: establish native allocation, callback-return, ABI, lifetime and cache contracts before an executable experiment. Preserve the OPEN live-session capability-field road. Further settings imports, resets or firmware writes are not implied by the help result.
+
+---
+
 # 2026-10-27 milestone — device work complete
 
 ## Completed
