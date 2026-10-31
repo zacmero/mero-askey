@@ -40,3 +40,11 @@ research/firmware-analysis.md links three exact-image reports; related-investiga
 The captured firmware registers an `xfile` command family described as DRAM file system. Its lexer includes create/delete/list. Root descriptor `0x8060b310` and registration around `0x802e96d8` identify a supported RAM-filesystem route to examine before any guessed-address placement. No file operation has been issued yet; allocation/ownership/cleanup semantics are still being traced.
 
 The live `xfile list` table prints reliably in Telnet and provides file-owned control-block addresses. Default files are packet-backed: the control block is not the payload. The packet write routine loads the payload pointer from control-block offset +88; allocation establishes separate backing storage. One `xfile create ?` request created an empty literal `?` file despite general help guidance; close/delete restored the exact original five-file inventory. Do not use `?` as a safe create-argument probe.
+
+
+## Temporary placement and observation verified
+
+- Native xfile allocation supplied a single owned packet buffer with separate backing storage and payload pointer, checked against the descriptor and unique filename. The default packet data request is 1600 bytes; 512 bytes were reserved for future code and a 64-byte mailbox at offset 512.
+- Wrote only 64 inert marker bytes and 64 mailbox bytes through 32 aligned long stores. The pilot, immediate readback and fresh-process/fresh-Telnet readback matched exactly, including a fresh nonce. Metadata was not modified through memory stores.
+- Closed/deleted the owned file and verified the original five-file inventory and all recorded metadata restored. No active allocation remains; historical addresses are invalid for reuse. All four sessions logged out.
+- Published guarded source and workflow in [RAM placement](docs/ram-placement.md), with real evidence hashes in [ASKEY-NET-009](docs/experiments/askey-net-009.md). No custom instruction image or native address call occurred. Cache/fetch and entry/unload status remain next-stage work; the capability-field research road stays OPEN.

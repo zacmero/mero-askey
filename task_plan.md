@@ -1,6 +1,6 @@
 # Temporary placement and observation — 2026-10-31
 
-Owner requested establishing temporary code placement and a reliable observation channel. In progress: trace RAM-file/transfer allocation and cleanup; derive a bounded inert-data placement test; verify independent readback and observation; document and commit each established milestone. Do not use guessed free RAM, direct hardware MMIO, persistent services/settings or arbitrary native calls as discovery probes.
+Completed: native RAM-file allocation and ownership checks, 128-byte inert placement through 32 aligned stores, exact readback through a fresh connection, and close/delete restoring the original inventory. The guarded implementation and operator guide are tools/probe_ram_placement.py and docs/ram-placement.md; ASKEY-NET-009 records actual hashes. No allocation remains held. Custom code execution and instruction-cache behavior were not tested. Do not reuse historical addresses.
 
 ---
 

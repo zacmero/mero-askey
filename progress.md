@@ -137,3 +137,14 @@
 - xfile list returns structured metadata in Telnet, providing a file-owned locator independent of the silent formatter. Packet FILEBASE is a control block; payload pointer is stored at +88 and allocator backing pointer at +84, with 128-byte headroom.
 - General help guidance did not hold for xfile create ?: it created an empty literal ? file. Verified exclusive ownership from inventories, closed/deleted that file, and verified the original inventory restored. Documented the parser surprise and stopped using that probe.
 - ASKEY-NET-009 records the established facts. Bounded inert placement/independent readback test is next; no native call or executable payload attempted.
+
+
+## Temporary placement — full lifecycle verified and implemented
+
+- Allocation-path checkpoint committed/pushed as `04aec0f`.
+- Created a unique owned RAM file. Revalidated descriptor/name/open flag/single buffer and allocation pointers before writing; recovered the separate payload pointer rather than treating the CCB as data.
+- 32 aligned stores placed 128 inert bytes across two exact regions. Pilot/immediate readback and an independent fresh process/Telnet readback matched the nonce-bearing data and mailbox.
+- Explicit close/delete restored the original inventory and metadata; lease held=false. All four sessions logged out. No custom code, native-address call, firmware/settings write, reset or hardware operation occurred.
+- Delivered tools/probe_ram_placement.py and operator documentation. The delivered tool adds a pinned live image-header check, private per-run evidence and unique log names; live preflight passed. Allocation/ownership/store/parser function bodies match the live-tested probe. Syntax/help and fail-closed path/optimized-Python checks passed.
+- Two local patch attempts failed on string escaping/template syntax before any device operation; corrected locally. The device-side allocation/write/read/cleanup phases all passed.
+- Current docs/handoff record completion, released-address limits and remaining instruction-cache/entry/callback work.

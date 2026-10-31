@@ -86,12 +86,14 @@ One live command, **`chksum 0xb4010000 0x40`**, targeted only the independently 
 
 ## Verification boundary and next questions
 
+Subsequent live work in [ASKEY-NET-009](../docs/experiments/askey-net-009.md) established the owned RAM-file placement and independent mailbox-readback path, with explicit cleanup. See the [implementation/workflow](../docs/ram-placement.md). This closes the data-placement/reader questions below; it does not demonstrate instruction fetching, cache coherency, custom entry or immediate returned-callback execution.
+
 Established: privileged help visibility; the live interface word; a live output hook and disabled ring; the two-stage callback call contract; allocator/free ownership within the formatter; the formatter's 0/1 return; loader copy/header behavior; and the dispatcher's discarded handler result.
 
 Still needed before a custom executable trial:
 
-- A supported temporary transfer/allocation path with demonstrated ownership and bounds. Neither the published pool start nor `loaddll` itself provides it.
-- A reliable observation channel for the entry and immediate returned callback. Formatter return 1 and a returned CLI prompt are insufficient acknowledgements.
+- Completed in ASKEY-NET-009: a supported temporary allocation path, checked ownership/bounds, inert data placement and verified cleanup. Neither the published pool start nor `loaddll` itself provides this ownership; the native RAM filesystem does.
+- Reader established in ASKEY-NET-009: fresh-session `memory show` of the owned nonce-bearing mailbox. A future entry and returned callback must still implement and produce their agreed status records. Formatter return 1 and a returned CLI prompt remain insufficient acknowledgements.
 - Confirmed instruction-mode, caller/callee state, cache and cleanup contracts for that placement and call path. A Linux executable/shared library remains unjustified.
 
 No loader copy, arbitrary address call, custom program, firmware write, direct MMIO operation or hardware hookup occurred. The separate live-session capability-field research road remains OPEN; this pass did not retry the previously blocked follow-up.

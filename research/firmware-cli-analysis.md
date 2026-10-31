@@ -1,5 +1,7 @@
 # RTV9015VW CLI privilege analysis
 
+Later live validation: [ASKEY-NET-009](../docs/experiments/askey-net-009.md) verified aligned long stores only inside a newly allocated, owner-checked RAM-file payload, followed by independent readback and cleanup. The earlier static/no-write scope below refers to the original 2026-10-27 analysis. No unrestricted-address write or native callback/copy execution was demonstrated.
+
 Offline analysis of the owner's complete `BR_SO_RTK_V6.1.8t` runtime, 2026-10-27. No router traffic, settings changes, firmware execution, memory writes, uploads or exploit tests were performed for this analysis.
 
 ## Artifact and method

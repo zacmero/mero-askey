@@ -34,6 +34,8 @@ The existing static report, offsets and private evidence remain retained. This l
 
 ## Other open questions
 
+ASKEY-NET-009 subsequently established native RAM-file allocation, bounded inert placement, independent mailbox readback and explicit cleanup. See [placement and observation](../docs/ram-placement.md). This resolves a supported data-placement/reader path without discarding the separate live-session capability-field road. Actual custom execution, cache behavior and a native completion protocol remain unproven.
+
 2026-10-31 update: [ASKEY-NET-007](../docs/experiments/askey-net-007.md) measured the chip-ID snapshot global as `0x00016405` and, through an explicitly approved configuration import, reached `XDSL#` with native handler names in filtered help. These results do not close the session-object research road or establish safe native execution.
 
 - Exact live ChipId snapshot interpretation, installed RAM capacity and CPU clock; do not substitute compile-time support strings for hardware measurements.

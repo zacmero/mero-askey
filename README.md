@@ -4,6 +4,8 @@ Investigation of the owner's Askey RTV9015VW. Goal: a genuine OS shell and a rep
 
 ## Latest device result — 2026-10-31
 
+Temporary RAM placement and independent observation are now verified: a native RAM file supplied owned storage, 128 bytes of inert test data matched through a fresh connection, and cleanup restored the original inventory. The [guarded probe and workflow](docs/ram-placement.md) and [ASKEY-NET-009](docs/experiments/askey-net-009.md) record the implementation, bounds and real hashes. No custom native program was executed.
+
 The MSI/Askey path is reverified. After an explicitly approved two-field settings import and reboot, admin Telnet now reaches **`XDSL#`**, and filtered help exposes **webdll, loaddll and chksum**. Support web access still works; the fresh export exactly matches the reviewed candidate. This is privileged vendor CLI access; no OS shell or custom native execution has been demonstrated. See [ASKEY-NET-007](docs/experiments/askey-net-007.md) and the [current handoff](HANDOFF.md).
 
 ## Firmware milestone — 2026-10-27
@@ -30,7 +32,8 @@ Verification covers 8192 contiguous chunks, raw-response reassembly, independent
 - [Handoff](HANDOFF.md): authoritative state, operator constraints and next research questions.
 - [Verified specifications](docs/device-specs.md) and [manual Telnet guide](docs/telnet.md).
 - [Newly exposed native commands](docs/native-commands.md): what the higher-privilege console exposes and the distinct call/copy/checksum behaviors.
-- [Native callback and loader contracts](research/firmware-native-contracts.md), including the bounded [live verification record](docs/experiments/askey-net-008.md) and the unresolved output/placement boundary.
+- [Native callback and loader contracts](research/firmware-native-contracts.md), including the bounded [live verification record](docs/experiments/askey-net-008.md) and the remaining execution boundary.
+- [Temporary RAM placement and mailbox readback](docs/ram-placement.md): verified owned allocation, inert placement, fresh-session observation and cleanup.
 - [Consolidated firmware analysis](research/firmware-analysis.md), with three detailed static-analysis reports.
 - [Open research leads](research/open-research-leads.md): live-session capability-field research remains **OPEN**, explicitly retained by the owner.
 - [Extracted primary-source leads](research/related-investigations.md) and [source index](research/sources.md).
