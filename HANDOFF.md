@@ -1,5 +1,7 @@
 # Askey handoff — next target for genuine shell access
 
+**Start with [NEXT_AGENT.md](NEXT_AGENT.md)** for the concise current implementation handoff. The material below retains historical experiment details.
+
 Prepared **2026-10-26, America/Sao_Paulo**. Target: Zac's **Askey RTV9015VW** Vivo router. Repository: `zacmero/mero-askey`, branch `main`.
 
 ## Current session — 2026-10-31: privileged vendor CLI verified
