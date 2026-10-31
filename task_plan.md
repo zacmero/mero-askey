@@ -1,3 +1,9 @@
+# Native execution road — 2026-10-31
+
+Recorded in [native execution roadmap](docs/native-execution-roadmap.md). Current step: instruction-mode/cache handling, with parallel offline firmware analysis. Then prepare the minimal entry/returned-callback pair, perform one bounded trial after prerequisites are established, independently verify mailbox markers, and clean up. No custom execution has occurred.
+
+---
+
 # Temporary placement and observation — 2026-10-31
 
 Completed: native RAM-file allocation and ownership checks, 128-byte inert placement through 32 aligned stores, exact readback through a fresh connection, and close/delete restoring the original inventory. The guarded implementation and operator guide are tools/probe_ram_placement.py and docs/ram-placement.md; ASKEY-NET-009 records actual hashes. No allocation remains held. Custom code execution and instruction-cache behavior were not tested. Do not reuse historical addresses.
