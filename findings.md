@@ -33,3 +33,10 @@ research/firmware-analysis.md links three exact-image reports; related-investiga
 - Supplied formatter owns/frees a 3076-byte allocation, normally returns 1 and does not acknowledge Telnet delivery. It uses a fixed output context. Live callback pointer matches the captured firmware.
 - The diagnostic ring is disabled; a live character hook traces statically to a UART-style backend. One bounded checksum request produced no numeric response, so the offline expected `0x347d` is not a live verified result.
 - Evidence, limits and next questions: [native contracts](research/firmware-native-contracts.md) and [ASKEY-NET-008](docs/experiments/askey-net-008.md). No callback/copy/payload execution claimed.
+
+
+## Temporary placement investigation — in progress
+
+The captured firmware registers an `xfile` command family described as DRAM file system. Its lexer includes create/delete/list. Root descriptor `0x8060b310` and registration around `0x802e96d8` identify a supported RAM-filesystem route to examine before any guessed-address placement. No file operation has been issued yet; allocation/ownership/cleanup semantics are still being traced.
+
+The live `xfile list` table prints reliably in Telnet and provides file-owned control-block addresses. Default files are packet-backed: the control block is not the payload. The packet write routine loads the payload pointer from control-block offset +88; allocation establishes separate backing storage. One `xfile create ?` request created an empty literal `?` file despite general help guidance; close/delete restored the exact original five-file inventory. Do not use `?` as a safe create-argument probe.

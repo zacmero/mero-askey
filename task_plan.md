@@ -1,3 +1,9 @@
+# Temporary placement and observation — 2026-10-31
+
+Owner requested establishing temporary code placement and a reliable observation channel. In progress: trace RAM-file/transfer allocation and cleanup; derive a bounded inert-data placement test; verify independent readback and observation; document and commit each established milestone. Do not use guessed free RAM, direct hardware MMIO, persistent services/settings or arbitrary native calls as discovery probes.
+
+---
+
 # Native contract pass — 2026-10-31
 
 Completed the exposed-command reference, bounded callback/copy/formatter/dispatcher analysis, and ordinary-RAM output-interface/sink readbacks. Recorded the checksum result as unverified because no numeric output appeared. See [native contracts](research/firmware-native-contracts.md) and [ASKEY-NET-008](docs/experiments/askey-net-008.md). No custom call/copy/payload test performed.

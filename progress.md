@@ -129,3 +129,11 @@
 - One aligned 64-byte flash-header chksum request returned echo/prompt without numeric output. The original script assertion failed after clean logout; final evidence correctly records the numeric checksum as unverified. No retry loop.
 - Static hook tracing reaches a UART-style MMIO byte-output path; no direct MMIO operation or hardware hookup performed. No webdll/loaddll invocation or payload.
 - Saved ASKEY-NET-008 and detailed contract report. Safe placement/transfer, reliable observation, complete ABI/cache and cleanup contracts remain future questions; live-session capability-field lead remains OPEN.
+
+
+## Temporary placement — allocation-path checkpoint
+
+- Owner requested establishing temporary code placement and reliable observation. Traced the supported xfile RAM-filesystem path and packet allocator before selecting storage.
+- xfile list returns structured metadata in Telnet, providing a file-owned locator independent of the silent formatter. Packet FILEBASE is a control block; payload pointer is stored at +88 and allocator backing pointer at +84, with 128-byte headroom.
+- General help guidance did not hold for xfile create ?: it created an empty literal ? file. Verified exclusive ownership from inventories, closed/deleted that file, and verified the original inventory restored. Documented the parser surprise and stopped using that probe.
+- ASKEY-NET-009 records the established facts. Bounded inert placement/independent readback test is next; no native call or executable payload attempted.
