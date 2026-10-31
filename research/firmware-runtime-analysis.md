@@ -1,5 +1,7 @@
 # Captured runtime: OSK identity and native execution boundary
 
+Later evidence: the [2026-10-31 native contract review](firmware-native-contracts.md) extends the callback, formatter/output, dispatch-return and loader-copy analysis and records bounded live data reads. The original analysis below retains its dated scope.
+
 Offline analysis, **2026-10-27**, of the owner's `BR_SO_RTK_V6.1.8t` run image. No firmware code was executed, and no device command, memory write, upload, configuration change or hardware operation was performed for this analysis.
 
 The captured runtime contains an OSK kernel and mixed big-endian MIPS instruction streams. It provides task creation, memory allocation and indirect native calls. A POSIX shell, Linux system-call ABI and general executable loader have **not** been established. A Linux MIPS binary is therefore not a justified next artifact.

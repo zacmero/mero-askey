@@ -25,3 +25,11 @@ research/firmware-analysis.md links three exact-image reports; related-investiga
 - Explicitly approved access mode 2/admin priority 1 import persisted byte-for-byte. Support web access survives; admin Telnet now reaches `XDSL#`.
 - Filtered root help exposes `webdll`, `loaddll`, `chksum`. Privileged vendor CLI access is established; native handler execution and OS shell remain unproven.
 - Full details, actual hashes, rollback and protocol correction: [ASKEY-NET-007](docs/experiments/askey-net-007.md). Live-session capability-field avenue remains OPEN.
+
+
+## Native contract review — 2026-10-31
+
+- webdll invokes the returned callback immediately; loaddll copies a body without entry execution or local allocation/decompression. Dispatcher overwrites handler returns with 1.
+- Supplied formatter owns/frees a 3076-byte allocation, normally returns 1 and does not acknowledge Telnet delivery. It uses a fixed output context. Live callback pointer matches the captured firmware.
+- The diagnostic ring is disabled; a live character hook traces statically to a UART-style backend. One bounded checksum request produced no numeric response, so the offline expected `0x347d` is not a live verified result.
+- Evidence, limits and next questions: [native contracts](research/firmware-native-contracts.md) and [ASKEY-NET-008](docs/experiments/askey-net-008.md). No callback/copy/payload execution claimed.

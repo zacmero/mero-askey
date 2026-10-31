@@ -119,3 +119,13 @@
 - First multipart attempt had file ordering unlike the native form, returned headerless HTML, and left the export unchanged. Corrected native-order request passed independent MIME payload checks, received HTTP 200/Autoboot, and persisted exactly after reboot. No blind duplicate import.
 - Support web access remains functional. Admin Telnet enters `XDSL#`; adjusted reader for the changed prompt. Latest sessions logged out cleanly. Filtered root help lists webdll/loaddll/chksum; none was invoked.
 - Current results and rollback hashes recorded in ASKEY-NET-007 and handoff. No firmware write, memory write, custom payload or OS shell result. Published firmware stays unchanged. Live-session capability-field research remains OPEN.
+
+
+## 2026-10-31 — Native command reference and contract verification
+
+- Documented what webdll/loaddll/chksum expose, explicitly distinguishing higher vendor-console privilege from first-time shell access. Committed/pushed command reference as `8d38f24`.
+- Rechecked runtime hash and traced callback, formatter, dispatcher, copy helper and output backend offline. Recovered immediate returned-callback invocation, owned/freed formatting allocation with 0/1 return, fixed output context, and discarded handler results.
+- Bounded live RAM reads confirmed callback pointer `0x8013733d`, a disabled diagnostic ring and character hook `0x803c4dd9`. An adjacent descriptor differs from its firmware initializer; only the interface pointer/next zero word are matching claims.
+- One aligned 64-byte flash-header chksum request returned echo/prompt without numeric output. The original script assertion failed after clean logout; final evidence correctly records the numeric checksum as unverified. No retry loop.
+- Static hook tracing reaches a UART-style MMIO byte-output path; no direct MMIO operation or hardware hookup performed. No webdll/loaddll invocation or payload.
+- Saved ASKEY-NET-008 and detailed contract report. Safe placement/transfer, reliable observation, complete ABI/cache and cleanup contracts remain future questions; live-session capability-field lead remains OPEN.

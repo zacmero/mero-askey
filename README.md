@@ -23,13 +23,14 @@ Verification covers 8192 contiguous chunks, raw-response reassembly, independent
 - Native admin/support web access and Telnet login work after explicitly approved settings changes. The persistent changes are only expanded-menu flags and Telnet enablement.
 - Captured firmware identifies OSK with mixed big-endian MIPS32/MIPS16 code. Exact SoC/clock, physical RAM and a Linux/POSIX ABI remain unverified. The reported 22.719 MiB memory pool is not installed RAM capacity.
 - `sh` opens another vendor console: initially `XDSL>`, now `XDSL#` after the approved privilege settings. `id` and `uname -a` were rejected in the earlier restricted console; they were not retested in the latest experiment. No genuine OS shell or arbitrary native program has run yet.
-- Static analysis explains CLI privileges and identifies native call/copy/checksum handlers. Their appearance in privileged help is now verified; the handlers themselves remain unexercised. The reported backup-image slot is erased; working recovery is not demonstrated.
+- Static analysis explains CLI privileges and identifies native call/copy/checksum handlers. Privileged help visibility and the live output-interface pointer are verified. A bounded checksum request produced no visible result; callback/copy execution remains untested. The reported backup-image slot is erased; working recovery is not demonstrated.
 
 ## Read next
 
 - [Handoff](HANDOFF.md): authoritative state, operator constraints and next research questions.
 - [Verified specifications](docs/device-specs.md) and [manual Telnet guide](docs/telnet.md).
 - [Newly exposed native commands](docs/native-commands.md): what the higher-privilege console exposes and the distinct call/copy/checksum behaviors.
+- [Native callback and loader contracts](research/firmware-native-contracts.md), including the bounded [live verification record](docs/experiments/askey-net-008.md) and the unresolved output/placement boundary.
 - [Consolidated firmware analysis](research/firmware-analysis.md), with three detailed static-analysis reports.
 - [Open research leads](research/open-research-leads.md): live-session capability-field research remains **OPEN**, explicitly retained by the owner.
 - [Extracted primary-source leads](research/related-investigations.md) and [source index](research/sources.md).

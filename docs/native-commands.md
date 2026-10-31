@@ -15,3 +15,9 @@ The `webdll` entry is not an ordinary one-call function runner: its first return
 The archived running image is not an approved `loaddll` module. Its header names the running system's load base and its payload contains compressed firmware components; this handler performs a direct copy, not the decompression performed during boot analysis.
 
 The original [CLI analysis](../research/firmware-cli-analysis.md) and [runtime analysis](../research/firmware-runtime-analysis.md) retain addresses and bounded evidence. A visible command name establishes parser exposure; it does not establish a safe execution recipe or working restoration.
+
+## Contract-verification follow-up
+
+[ASKEY-NET-008](experiments/askey-net-008.md) confirms the live interface callback pointer and identifies a fixed output-routing context, a disabled diagnostic ring and a character hook leading to a UART-style backend. A single bounded `chksum` request returned to the prompt without checksum text; its numeric result remains unverified. Neither `webdll` nor `loaddll` was invoked.
+
+The [detailed native contracts](../research/firmware-native-contracts.md) now cover both callback calls, formatter allocation/free and 0/1 return, header-copy fields, discarded handler return values, output routing, and remaining ABI/cache/placement questions.

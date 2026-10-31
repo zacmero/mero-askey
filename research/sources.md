@@ -1,5 +1,7 @@
 # Askey RTV9015VW — source index
 
+New local firmware evidence: [native callback/loader contracts](firmware-native-contracts.md), [exposed-command reference](../docs/native-commands.md), and [ASKEY-NET-008](../docs/experiments/askey-net-008.md). These distinguish verified static behavior, ordinary-RAM readbacks and an unobserved live checksum result; no custom callback/copy execution is claimed.
+
 Local follow-up, 2026-10-31: [ASKEY-NET-007](../docs/experiments/askey-net-007.md) confirms persisted privileged CLI access after the owner's exact configuration approval, plus a measured chip-ID snapshot. These are new local results, not external source claims. Native execution remains unproven.
 
 Extracted main information and local applicability of the leads: [related investigations](related-investigations.md). The owner-requested full extraction is complete in [ASKEY-NET-006](../docs/experiments/askey-net-006.md); verified final artifacts are saved in [firmware/](../firmware/README.md).

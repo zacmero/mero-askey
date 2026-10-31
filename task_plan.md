@@ -1,3 +1,11 @@
+# Native contract pass — 2026-10-31
+
+Completed the exposed-command reference, bounded callback/copy/formatter/dispatcher analysis, and ordinary-RAM output-interface/sink readbacks. Recorded the checksum result as unverified because no numeric output appeared. See [native contracts](research/firmware-native-contracts.md) and [ASKEY-NET-008](docs/experiments/askey-net-008.md). No custom call/copy/payload test performed.
+
+Remaining execution prerequisites are safe temporary placement/transfer, a reliable observation channel, and full ABI/cache/cleanup contracts. Preserve the OPEN session-object avenue independently of the approved privilege-setting result.
+
+---
+
 # 2026-10-31 resumption — bounded CLI experiment complete
 
 Reverified the physical network path, retained a fresh rollback, and applied the exact owner-approved access-mode/admin-priority candidate through native import. Verified reboot recovery, exact persisted export, support management, admin `XDSL#` and filtered native-command help. No native handler or memory write was exercised. See [ASKEY-NET-007](docs/experiments/askey-net-007.md).
