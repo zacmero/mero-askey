@@ -1,6 +1,6 @@
 # Native execution road — 2026-10-31
 
-Recorded in [native execution roadmap](docs/native-execution-roadmap.md). Current step: instruction-mode/cache handling, with parallel offline firmware analysis. Then prepare the minimal entry/returned-callback pair, perform one bounded trial after prerequisites are established, independently verify mailbox markers, and clean up. No custom execution has occurred.
+Recorded in [native execution roadmap](docs/native-execution-roadmap.md). Current step: instruction-mode/cache handling remains OPEN/incomplete. Parallel agents were started as requested; automated review blocked the cache-contract worker and overlapping analysis was interrupted. Partial leads are retained in research/instruction-cache-checkpoint.md; no cache procedure or custom call is established. Then prepare the minimal entry/returned-callback pair, perform one bounded trial after prerequisites are established, independently verify mailbox markers, and clean up. No custom execution has occurred.
 
 ---
 

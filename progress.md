@@ -148,3 +148,10 @@
 - Delivered tools/probe_ram_placement.py and operator documentation. The delivered tool adds a pinned live image-header check, private per-run evidence and unique log names; live preflight passed. Allocation/ownership/store/parser function bodies match the live-tested probe. Syntax/help and fail-closed path/optimized-Python checks passed.
 - Two local patch attempts failed on string escaping/template syntax before any device operation; corrected locally. The device-side allocation/write/read/cleanup phases all passed.
 - Current docs/handoff record completion, released-address limits and remaining instruction-cache/entry/callback work.
+
+
+## Native execution roadmap and step-1 checkpoint
+
+- Recorded and pushed the implementation road as `f9190d1`. Owner explicitly requested subagents; started separate cache-contract and boot/copy-order workers.
+- Cache-contract worker failed automated cybersecurity review for possible cybersecurity risk. Interrupted overlapping boot/cache work; no retry/rephrasing or device operation.
+- Preserved the boot worker's preliminary offsets as unverified leads in research/instruction-cache-checkpoint.md. Step 1 remains OPEN/incomplete; no callable cache contract is claimed and the road is not discarded.
