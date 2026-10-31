@@ -29,6 +29,7 @@ Verification covers 8192 contiguous chunks, raw-response reassembly, independent
 
 - [Handoff](HANDOFF.md): authoritative state, operator constraints and next research questions.
 - [Verified specifications](docs/device-specs.md) and [manual Telnet guide](docs/telnet.md).
+- [Newly exposed native commands](docs/native-commands.md): what the higher-privilege console exposes and the distinct call/copy/checksum behaviors.
 - [Consolidated firmware analysis](research/firmware-analysis.md), with three detailed static-analysis reports.
 - [Open research leads](research/open-research-leads.md): live-session capability-field research remains **OPEN**, explicitly retained by the owner.
 - [Extracted primary-source leads](research/related-investigations.md) and [source index](research/sources.md).

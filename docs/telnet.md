@@ -1,5 +1,7 @@
 # Test Telnet from the Mint laptop
 
+For the commands newly visible at `XDSL#`, see the [native command reference](native-commands.md). They expose native call/copy/checksum operations; their visibility is not a safe execution procedure.
+
 Open a local terminal on `cris-MS-1454`, outside the SSH session to mero-machine. The router is directly reachable through laptop Ethernet; mero-machine has no direct lab route.
 
 ```sh
