@@ -174,3 +174,25 @@
 - `cleanup_func` at offset `0x80` (20 instructions, 80 bytes): saves caller `$ra` into `$t9`, discovers PC via `bal`, calculates mailbox address, writes Stage 2 verification words (`"CLNP"`, nonce `0x33334444`, captured `$a0`, captured `$a1`, `"SUCC"` confirmation flag) to mailbox, sets `$v0 = 0`, restores caller `$ra`, and returns cleanly to `webdll`.
 - Stack and callee-saved discipline: `$s0`–`$s8`, `$gp`, and `$sp` are untouched; requires no stack frame and introduces 0 relocations (`readelf -r` verified).
 - Delivered [`tools/build_native_payload.py`](tools/build_native_payload.py) and verified compilation, extraction, symbol alignment, and disassembly. Binary SHA-256: `c7db7a20722b2b37fa2f19390c904af1c4a5a832da50a819fe94a1381e27c3e0`. Documented in [`docs/native-payload.md`](docs/native-payload.md). Step 2 is COMPLETE; unblocked for Step 3.
+
+
+## 2026-10-31 — Steps 3 & 4 complete: first bounded native execution trial verified on-target (ASKEY-NET-010)
+
+- Built dedicated multi-phase orchestration harness [`tools/run_native_trial.py`](tools/run_native_trial.py) implementing preflight, create, stage, execute, verify, and cleanup phases with fail-closed safety assertions.
+- Created owned RAM-file allocation `mero_native_010_5e4940b6` at CCB `0x809d8d9c` with 1600-byte capacity.
+- Staged compiled 576-byte position-independent MIPS32 binary into uncached KSEG1 (`0xa0a61c94`), prefilled 64-byte mailbox with `0xDEADBEEF`, and verified memory placement byte-for-byte in both KSEG1 and KSEG0.
+- Executed `webdll 0xa0a61c94` synchronously in < 1 second. Vendor console cleanly returned `XDSL#` prompt; verified interactive responsiveness (`help memory`).
+- In an independent fresh Telnet session, read back the mailbox at `0xa0a61e94` via `memory show`. Verified all 10 expected 32-bit words:
+  - `stage1_magic`: `0x454e5452` ("ENTR")
+  - `stage1_nonce`: `0x11112222`
+  - `stage1_a0`: `0x12345678`
+  - `stage1_a1`: `0x805f1648`
+  - `cleanup_callback`: `0xa0a61d14`
+  - `stage2_magic`: `0x434c4e50` ("CLNP")
+  - `stage2_nonce`: `0x33334444`
+  - `stage2_a0`: `0x12345678`
+  - `stage2_a1`: `0x805f1648`
+  - `success_flag`: `0x53554343` ("SUCC")
+  - Remaining 6 words: `0xDEADBEEF` untouched.
+- Cleanly closed and deleted the owned allocation; verified original 5-file inventory restored (`held=false`).
+- Native execution roadmap is 100% COMPLETE. Full report in [`docs/experiments/askey-net-010.md`](docs/experiments/askey-net-010.md).

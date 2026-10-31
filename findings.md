@@ -67,3 +67,25 @@ The live `xfile list` table prints reliably in Telnet and provides file-owned co
 - `cleanup_func` at offset `0x80` (80 bytes, 20 instructions) discovers PC via `bal`, writes Stage 2 nonces and `"SUCC"` confirmation to mailbox, sets `$v0 = 0`, and returns cleanly to `webdll`.
 - Zero relocations; callee-saved registers (`$s0`–`$s8`, `$gp`, `$sp`) and stack frame untouched; operates position-independently in KSEG0 or KSEG1.
 - Delivered build and verification tool [`tools/build_native_payload.py`](tools/build_native_payload.py). Binary SHA-256: `c7db7a20722b2b37fa2f19390c904af1c4a5a832da50a819fe94a1381e27c3e0`. Documented in [`docs/native-payload.md`](docs/native-payload.md). Step 3 is now unblocked.
+
+
+## Genuine native MIPS32 execution verified on-target (ASKEY-NET-010) — 2026-10-31
+
+- Steps 3 & 4 of the native execution roadmap are COMPLETE. Full native code execution demonstrated on the owner's Askey RTV9015VW under `webdll`.
+- Orchestrated via dedicated test harness [`tools/run_native_trial.py`](tools/run_native_trial.py) across isolated SSH/Telnet sessions.
+- Dynamic owned allocation created: `mero_native_010_5e4940b6` at CCB `0x809d8d9c`, data payload at `0x80a61c94`, mailbox at `0x80a61e94`.
+- Binary staged into uncached KSEG1 (`0xa0a61c94`) and KSEG0 (`0x80a61c94`), with mailbox prefilled with `0xDEADBEEF`. Both readbacks matched `payload.bin` byte-for-byte.
+- Issued `webdll 0xa0a61c94`. The command executed synchronously in < 1 second and cleanly returned to the `XDSL#` prompt. Telnet console remained completely stable and responsive.
+- Independent fresh-session mailbox readback (`memory show 0xa0a61e94 length 0x40`) confirmed all 10 expected fields:
+  1. `0x454e5452` ("ENTR"): Entry routine reached.
+  2. `0x11112222`: Stage 1 nonce confirmed.
+  3. `0x12345678`: Argument 0 (`magic`) verified.
+  4. `0x805f1648`: Argument 1 (`iface`) verified.
+  5. `0xa0a61d14`: Returned cleanup callback address verified.
+  6. `0x434c4e50` ("CLNP"): Cleanup routine reached.
+  7. `0x33334444`: Stage 2 nonce confirmed.
+  8. `0x12345678`: Argument 0 in cleanup verified.
+  9. `0x805f1648`: Argument 1 in cleanup verified.
+  10. `0x53554343` ("SUCC"): Complete execution lifecycle verified.
+- Uncached KSEG1 execution completely bypassed L1 I-cache/D-cache hazards, eliminating Harvard cache coherency obstacles.
+- Clean fail-closed release: file closed and deleted, and baseline 5-file filesystem inventory verified restored (`held=false`). Documented in [`docs/experiments/askey-net-010.md`](docs/experiments/askey-net-010.md).

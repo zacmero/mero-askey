@@ -1,19 +1,24 @@
 # Next agent — current implementation state
 
-## Goal and next step
+## Goal and current milestone
 
-Run a minimal native program on the owner's Askey RTV9015VW. Steps 1 & 2 are **COMPLETE**: resident cache contracts resolved ([research/instruction-mode-cache-contracts.md](research/instruction-mode-cache-contracts.md)), and the 576-byte PIC MIPS32 entry/cleanup payload is built, verified, and documented ([docs/native-payload.md](docs/native-payload.md), [`tools/build_native_payload.py`](tools/build_native_payload.py)). **Next (Step 3): execute one bounded live execution trial** by allocating fresh owned RAM, placing the payload, applying cache coherency, calling `webdll <entry_addr>`, and reading back the 10 mailbox markers. [Roadmap](docs/native-execution-roadmap.md).
+Run a minimal native program on the owner's Askey RTV9015VW. **COMPLETE (Roadmap Steps 1–4 verified).** Genuine native MIPS32 execution on the Askey RTV9015VW is fully demonstrated, independently verified via mailbox readback, and documented in [ASKEY-NET-010](docs/experiments/askey-net-010.md). The owned allocation was released cleanly (`held=false`) and baseline filesystem inventory verified. **Next horizon: exploring OS shell enablement and interactive execution.** [Roadmap](docs/native-execution-roadmap.md).
 
 ## What works
 
-- Firmware `BR_SO_RTK_V6.1.8t`; OSK, big-endian mixed MIPS32/MIPS16. No Linux/POSIX shell or custom native program demonstrated.
-- `sh` already worked before. Approved access mode 2/admin priority 1 now gives vendor prompt **`XDSL#`** and exposes `webdll`, `loaddll`, `chksum`. Support web login still works.
-- Native `xfile` RAM allocation, ownership checks, 128-byte inert placement, independent fresh-session readback and close/delete all passed. Original five-file inventory restored. **No active test allocation; old addresses are invalid.**
-- Reliable observation: owned RAM mailbox read with `memory show`. Do not depend on native printf appearing in Telnet.
+- Firmware `BR_SO_RTK_V6.1.8t`; OSK, big-endian mixed MIPS32/MIPS16 on Realtek RLX5181/RLX5281 core.
+- Admin access mode 2 / priority 1 vendor console **`XDSL#`** exposes `webdll`, `loaddll`, `chksum`.
+- Native `xfile` RAM allocation, dynamic pointer discovery, and fail-closed cleanup verified.
+- Position-independent MIPS32 payload (`tools/build_native_payload.py`, 576 bytes, 0 relocations) executes cleanly in uncached KSEG1 (`0xa0...`).
+- Synchronous two-call `webdll` execution verified: `entry_func` ran, wrote Stage 1 nonces and captured arguments to mailbox, returned cleanup callback address in `$v0`, `webdll` called cleanup callback, `cleanup_func` ran, wrote Stage 2 nonces and `"SUCC"` confirmation to mailbox, set `$v0 = 0`, and returned cleanly to CLI prompt (`XDSL#`).
+- Mailbox readback via `memory show` in a separate, fresh Telnet session verified all 10 target fields.
+- Re-verified console responsiveness and cleanly closed/deleted the owned file. Baseline 5-file inventory intact. [ASKEY-NET-010](docs/experiments/askey-net-010.md).
 
 ## Working implementation
 
-[tools/probe_ram_placement.py](tools/probe_ram_placement.py): phases **preflight → create → write → read → cleanup**, using the same `--run-dir .local/<name>`. `write` places inert records, not an executable. [Usage and validation](docs/ram-placement.md); [measured evidence](docs/experiments/askey-net-009.md).
+- [tools/build_native_payload.py](tools/build_native_payload.py): builds and verifies 576-byte PIC MIPS32 entry/cleanup binary adhering to `webdll` calling contract.
+- [tools/run_native_trial.py](tools/run_native_trial.py): orchestrates phases **preflight → create → stage → execute → verify → cleanup**. Tested and verified live on device.
+- [tools/probe_ram_placement.py](tools/probe_ram_placement.py): inert placement probe and readback baseline from ASKEY-NET-009.
 
 - `xfile list` FILEBASE is a packet control block, **not payload storage**. The checked payload pointer is at control-block +88; backing pointer at +84, with 128-byte headroom.
 - Default data request: 1600 bytes. Reserved layout: code area 0–511; mailbox 512–575. Only 64 code-placeholder bytes and 64 mailbox bytes were tested.
