@@ -58,3 +58,12 @@ The live `xfile list` table prints reliably in Telnet and provides file-owned co
 - Routine `0x800065ec` / `0x800064e4`: MIPS32 `dcache_flush_range(addr, len)`. For `< 8192` bytes, masks to KSEG0, disables interrupts, and executes a 64-byte block loop of four `cache 0x15` instructions (Hit Writeback Invalidate D-cache). For `>= 8192` bytes, toggles CP0 register 20 bit 9. Provenance: invoked in network drivers (`0x80014c2a`, etc.) on packet control block payload pointers (`88(s0)`) and lengths (`20(s0)`).
 - Calling `webdll` with an even entry address guarantees execution in pure MIPS32 mode with full 32-register access.
 - Roadmap Step 2 (prepare entry and returned callback pair) is now unblocked. Detailed contracts: [research/instruction-mode-cache-contracts.md](research/instruction-mode-cache-contracts.md).
+
+
+## Native entry and cleanup callback pair verified — 2026-10-31
+
+- Step 2 of the native execution roadmap is COMPLETE. Assembled and verified 576-byte position-independent MIPS32 payload adhering strictly to the `webdll` two-call contract (`f(magic, iface) -> next_fn; next_fn(magic, iface)`).
+- `entry_func` at offset `0x00` (72 bytes, 18 instructions) discovers PC via `bal`, writes Stage 1 nonces and captured arguments to mailbox (`offset 512`), and returns cleanup address (`offset 128`) in `$v0`.
+- `cleanup_func` at offset `0x80` (80 bytes, 20 instructions) discovers PC via `bal`, writes Stage 2 nonces and `"SUCC"` confirmation to mailbox, sets `$v0 = 0`, and returns cleanly to `webdll`.
+- Zero relocations; callee-saved registers (`$s0`–`$s8`, `$gp`, `$sp`) and stack frame untouched; operates position-independently in KSEG0 or KSEG1.
+- Delivered build and verification tool [`tools/build_native_payload.py`](tools/build_native_payload.py). Binary SHA-256: `c7db7a20722b2b37fa2f19390c904af1c4a5a832da50a819fe94a1381e27c3e0`. Documented in [`docs/native-payload.md`](docs/native-payload.md). Step 3 is now unblocked.

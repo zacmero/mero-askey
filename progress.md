@@ -165,3 +165,12 @@
 - Traced `0x800065ec` / `0x800064e4`: MIPS32 `dcache_flush_range(addr, len)` routine. For `< 8192` bytes, converts address to KSEG0, disables interrupts, and executes a 64-byte block loop of four `cache 0x15` instructions (Hit Writeback Invalidate D-cache). For `>= 8192` bytes, toggles CP0 register 20 bit 9 for global flush. Verified provenance: called in network drivers (`0x80014c2a`, etc.) on packet control block payload pointers (`88(s0)`) and lengths (`20(s0)`).
 - Verified instruction-mode interlinking: passing an even entry address to `webdll` forces execution in pure MIPS32 mode with full 32-register access.
 - Documented full contracts in `research/instruction-mode-cache-contracts.md` and updated `research/instruction-cache-checkpoint.md`. Step 1 is COMPLETE; roadmap unblocked for Step 2.
+
+
+## 2026-10-31 — Step 2 complete: minimal entry and returned callback pair assembled
+
+- Formulated and assembled a 576-byte position-independent MIPS32 payload strictly conforming to the `webdll` two-call contract (`f(magic, iface) -> next_fn; next_fn(magic, iface)`).
+- `entry_func` at offset `0x00` (18 instructions, 72 bytes): saves caller `$ra` into `$t9`, discovers PC via `bal`, calculates dynamic mailbox address (`offset 512`) and cleanup callback address (`offset 128`), writes Stage 1 verification words (`"ENTR"`, nonce `0x11112222`, captured `$a0`, captured `$a1`, cleanup target address) to mailbox, restores caller `$ra`, and returns cleanup address in `$v0`.
+- `cleanup_func` at offset `0x80` (20 instructions, 80 bytes): saves caller `$ra` into `$t9`, discovers PC via `bal`, calculates mailbox address, writes Stage 2 verification words (`"CLNP"`, nonce `0x33334444`, captured `$a0`, captured `$a1`, `"SUCC"` confirmation flag) to mailbox, sets `$v0 = 0`, restores caller `$ra`, and returns cleanly to `webdll`.
+- Stack and callee-saved discipline: `$s0`–`$s8`, `$gp`, and `$sp` are untouched; requires no stack frame and introduces 0 relocations (`readelf -r` verified).
+- Delivered [`tools/build_native_payload.py`](tools/build_native_payload.py) and verified compilation, extraction, symbol alignment, and disassembly. Binary SHA-256: `c7db7a20722b2b37fa2f19390c904af1c4a5a832da50a819fe94a1381e27c3e0`. Documented in [`docs/native-payload.md`](docs/native-payload.md). Step 2 is COMPLETE; unblocked for Step 3.
