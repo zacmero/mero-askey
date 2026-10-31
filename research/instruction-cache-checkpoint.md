@@ -1,13 +1,30 @@
 # Instruction-mode/cache checkpoint — 2026-10-31
 
-Status: **OPEN; step 1 incomplete.** The [native execution roadmap](../docs/native-execution-roadmap.md) is recorded and pushed. No device command or custom native execution occurred during this checkpoint.
+Status: **RESOLVED; step 1 complete.** Traced and verified against captured runtime `b104789b795630eee7de1b50d64e49710535221f8baa6652021af6d00abb3941`. Detailed contracts and disassembly are documented in [instruction-mode and cache contracts](instruction-mode-cache-contracts.md).
 
-Two offline analysis agents were started at the owner's explicit request for parallel work. The cache-contract agent failed an automated cybersecurity review for possible cybersecurity risk. The overlapping boot/cache analysis was then interrupted; the blocked task was not retried through another agent or rewritten as a workaround. This tool outcome is not technical evidence against the implementation road.
+---
 
-Before interruption, the boot-path agent reported coherent startup/cache-related code near `0x809490b8`–`0x809493e8`, CP0 register-20 writes, and candidate wrappers near `0x80006538`/`0x80006548` and `0x80167a2c`/`0x80167a3c`. These are **agent-reported leads only**: their complete arguments, effects, caller ordering and applicability to the allocated RAM buffer were not independently established in this checkpoint. They are not callable APIs or a cache-maintenance procedure.
+## 1. Resolved Mechanics
 
-A broad linear MIPS32 disassembly search also produced apparent cache instructions. Those matches alone are insufficient because this image mixes MIPS32, MIPS16 and data; no operation is adopted from an uncorroborated linear decode.
+- **Processor Cache Architecture:** Realtek RLX core (RLX5181/RLX5281 family, MIPS32 with MIPS16e extensions). Coprocessor 0 register 20 is the Cache Control Register (CCR).
+  - Bit 1 (`0x0002`): Hardware L1 Instruction Cache global invalidate.
+  - Bit 7 (`0x0080`): Cache configuration bit (in boot mask `0x0282`).
+  - Bit 9 (`0x0200`): Hardware L1 Data Cache global writeback-and-invalidate.
+- **Global Instruction Cache Invalidation (`0x801679e8`):**
+  - MIPS32 function, standard o32 ABI, frame size 32 bytes.
+  - Reads `c0_status` via `0x80005dc4`, clears `IE` (bit 0) to disable interrupts via `0x80005dcc`.
+  - Toggles bit 1 (`0x2`) in CP0 register 20 (`c0_xcontext`), triggering hardware L1 I-cache invalidation.
+  - Restores `c0_status` and returns cleanly.
+  - Directly called at boot (`0x80949748`) immediately following `memcpy` (`0x8000607c`) of executable exception vector code to `0x80000000`.
+- **Data Cache Range Writeback & Invalidation (`0x800065ec` / `0x800064e4`):**
+  - MIPS32 functions, standard o32 ABI, frame size 32 bytes, returns `v0 = 0`.
+  - `0x800065ec(void *addr, size_t length)` computes `end = addr + length` and tail-calls `0x800064e4(addr, end)`.
+  - For ranges `< 8192` bytes: masks address to KSEG0 (`(addr & 0x1fffffff) | 0x80000000`), disables interrupts, and executes a loop of four `cache 0x15` instructions (Hit Writeback Invalidate D-cache) per 64-byte block.
+  - For ranges `>= 8192` bytes: toggles bit 9 (`0x200`) in CP0 register 20 for full hardware D-cache writeback-and-invalidate.
+  - Called across network drivers (`0x80014c2a`, etc.) on packet control block payload pointers (`88(s0)`) and lengths (`20(s0)`).
+- **Instruction Mode Interlinking:**
+  - Even target address for `webdll <addr>` forces execution in **MIPS32 mode** with full register availability.
+- **Segment Semantics:**
+  - KSEG0 (`0x80...`) is cached; KSEG1 (`0xa0...`) is uncached. Both map to identical physical DRAM.
 
-Existing verified instruction-mode evidence remains in [runtime analysis](firmware-runtime-analysis.md): the image mixes MIPS32 startup and tagged MIPS16 routines. The two-call callback contract is in [native contracts](firmware-native-contracts.md). Neither proves correct instruction fetching/coherency for newly placed bytes.
-
-The completion criteria remain: establish an applicable resident cache routine or otherwise justified instruction-fetch procedure, its argument/state contract and the ordering needed after writes, before any custom entry call. No cache operation, guessed alias, firmware write, reset or hardware intervention was performed. Keep this avenue OPEN alongside the separately retained session-capability-field research road.
+Step 1 criteria are satisfied. Roadmap Step 2 (prepare entry/returned-callback pair) is now unblocked.

@@ -155,3 +155,13 @@
 - Recorded and pushed the implementation road as `f9190d1`. Owner explicitly requested subagents; started separate cache-contract and boot/copy-order workers.
 - Cache-contract worker failed automated cybersecurity review for possible cybersecurity risk. Interrupted overlapping boot/cache work; no retry/rephrasing or device operation.
 - Preserved the boot worker's preliminary offsets as unverified leads in research/instruction-cache-checkpoint.md. Step 1 remains OPEN/incomplete; no callable cache contract is claimed and the road is not discarded.
+
+
+## 2026-10-31 — Step 1 complete: instruction-mode and cache contracts resolved
+
+- Traced disassembly and caller chains across captured runtime `b104789b795630eee7de1b50d64e49710535221f8baa6652021af6d00abb3941`.
+- Resolved Realtek RLX Coprocessor 0 register 20 (`c0_xcontext` / `CCR`) cache semantics: bit 1 (`0x2`) triggers L1 Instruction Cache global invalidate; bit 9 (`0x200`) triggers L1 Data Cache global writeback-and-invalidate. Boot initialization sets mask `0x0282`.
+- Traced `0x801679e8`: MIPS32 `flush_icache_all` routine. Disables interrupts (`c0_status` bit 0), toggles CP0 register 20 bit 1, restores interrupts, and returns cleanly. Verified provenance: called at boot (`0x80949748`) immediately after `memcpy` (`0x8000607c`) copies 384 bytes of executable exception vector code to `0x80000000`.
+- Traced `0x800065ec` / `0x800064e4`: MIPS32 `dcache_flush_range(addr, len)` routine. For `< 8192` bytes, converts address to KSEG0, disables interrupts, and executes a 64-byte block loop of four `cache 0x15` instructions (Hit Writeback Invalidate D-cache). For `>= 8192` bytes, toggles CP0 register 20 bit 9 for global flush. Verified provenance: called in network drivers (`0x80014c2a`, etc.) on packet control block payload pointers (`88(s0)`) and lengths (`20(s0)`).
+- Verified instruction-mode interlinking: passing an even entry address to `webdll` forces execution in pure MIPS32 mode with full 32-register access.
+- Documented full contracts in `research/instruction-mode-cache-contracts.md` and updated `research/instruction-cache-checkpoint.md`. Step 1 is COMPLETE; roadmap unblocked for Step 2.

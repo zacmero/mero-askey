@@ -2,7 +2,7 @@
 
 ## Goal and next step
 
-Run a minimal native program on the owner's Askey RTV9015VW. **Next: establish instruction-mode/cache handling for newly placed RAM code.** Then prepare an entry/returned-callback pair that writes nonce-bearing mailbox status, execute once, verify both stages independently, and release storage. [Roadmap](docs/native-execution-roadmap.md); [current cache checkpoint](research/instruction-cache-checkpoint.md).
+Run a minimal native program on the owner's Askey RTV9015VW. Step 1 (instruction-mode and cache contracts) is **COMPLETE**: verified RLX CP0 register 20 cache bits, range D-cache writeback (`0x800065ec`) and global I-cache invalidate (`0x801679e8`), plus even-address MIPS32 mode entry. **Next (Step 2): prepare the minimal entry and returned callback pair** that preserves calling state, writes nonce-bearing entry and cleanup status into the owned mailbox, and returns through the verified two-call `webdll` contract. [Roadmap](docs/native-execution-roadmap.md); [cache contracts](research/instruction-mode-cache-contracts.md); [step-1 checkpoint](research/instruction-cache-checkpoint.md).
 
 ## What works
 

@@ -1,6 +1,6 @@
 # Native execution road — 2026-10-31
 
-Recorded in [native execution roadmap](docs/native-execution-roadmap.md). Current step: instruction-mode/cache handling remains OPEN/incomplete. Parallel agents were started as requested; automated review blocked the cache-contract worker and overlapping analysis was interrupted. Partial leads are retained in research/instruction-cache-checkpoint.md; no cache procedure or custom call is established. Then prepare the minimal entry/returned-callback pair, perform one bounded trial after prerequisites are established, independently verify mailbox markers, and clean up. No custom execution has occurred.
+Recorded in [native execution roadmap](docs/native-execution-roadmap.md). Step 1 (instruction-mode and cache handling) is **COMPLETE**: verified Realtek RLX CP0 register 20 cache bits (bit 1 = I-cache, bit 9 = D-cache), range D-cache writeback `0x800065ec` (using `cache 0x15` loop on packet payload pointers) and global I-cache invalidate `0x801679e8` (called at boot post-memcpy). Even entry address guarantees pure MIPS32 execution mode under `webdll`. Detailed contracts recorded in [research/instruction-mode-cache-contracts.md](research/instruction-mode-cache-contracts.md). Current step: Step 2 (prepare the minimal entry and returned callback pair writing nonce-bearing mailbox status). Then perform one bounded trial (Step 3), independently verify mailbox markers, and clean up (Step 4). No custom execution has occurred.
 
 ---
 

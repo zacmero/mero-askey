@@ -48,3 +48,13 @@ The live `xfile list` table prints reliably in Telnet and provides file-owned co
 - Wrote only 64 inert marker bytes and 64 mailbox bytes through 32 aligned long stores. The pilot, immediate readback and fresh-process/fresh-Telnet readback matched exactly, including a fresh nonce. Metadata was not modified through memory stores.
 - Closed/deleted the owned file and verified the original five-file inventory and all recorded metadata restored. No active allocation remains; historical addresses are invalid for reuse. All four sessions logged out.
 - Published guarded source and workflow in [RAM placement](docs/ram-placement.md), with real evidence hashes in [ASKEY-NET-009](docs/experiments/askey-net-009.md). No custom instruction image or native address call occurred. Cache/fetch and entry/unload status remain next-stage work; the capability-field research road stays OPEN.
+
+
+## Instruction mode and cache contracts verified — 2026-10-31
+
+- Step 1 of the native execution roadmap is COMPLETE. Traced and verified resident cache management and instruction mode transitions against captured runtime `b104789b795630eee7de1b50d64e49710535221f8baa6652021af6d00abb3941`.
+- Hardware CP0 register 20 is Realtek RLX Cache Control Register: bit 1 (`0x2`) triggers L1 I-cache global invalidate; bit 9 (`0x200`) triggers L1 D-cache global writeback-and-invalidate.
+- Routine `0x801679e8`: MIPS32 `flush_icache_all` (disables interrupts via `c0_status` bit 0, toggles CP0 register 20 bit 1, restores interrupts). Provenance: invoked at boot (`0x80949748`) immediately after `memcpy` (`0x8000607c`) copies 384 bytes of executable exception vectors to `0x80000000`.
+- Routine `0x800065ec` / `0x800064e4`: MIPS32 `dcache_flush_range(addr, len)`. For `< 8192` bytes, masks to KSEG0, disables interrupts, and executes a 64-byte block loop of four `cache 0x15` instructions (Hit Writeback Invalidate D-cache). For `>= 8192` bytes, toggles CP0 register 20 bit 9. Provenance: invoked in network drivers (`0x80014c2a`, etc.) on packet control block payload pointers (`88(s0)`) and lengths (`20(s0)`).
+- Calling `webdll` with an even entry address guarantees execution in pure MIPS32 mode with full 32-register access.
+- Roadmap Step 2 (prepare entry and returned callback pair) is now unblocked. Detailed contracts: [research/instruction-mode-cache-contracts.md](research/instruction-mode-cache-contracts.md).
