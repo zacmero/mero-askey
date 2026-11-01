@@ -196,3 +196,10 @@
   - Remaining 6 words: `0xDEADBEEF` untouched.
 - Cleanly closed and deleted the owned allocation; verified original 5-file inventory restored (`held=false`).
 - Native execution roadmap is 100% COMPLETE. Full report in [`docs/experiments/askey-net-010.md`](docs/experiments/askey-net-010.md).
+
+
+## 2026-11-01 — Hardware specs and bare-metal lesson delivered
+
+- Created and verified [`tools/probe_hardware_specs.py`](tools/probe_hardware_specs.py), probing silicon MMIO registers (`0xb8000000`, `0xb8000024`, `0xb8001000`, `0xb8001204`, `0xb8001300`) and bootloader memory structures (`0x8055a850`, `0x80630320`).
+- Confirmed full system hardware specs: Realtek RTL8672 / RTL8671x SoC (RLX5181/RLX5281 MIPS core), ~300 MHz CPU frequency, 100.1 MHz bus clock, 64 MiB total physical SDRAM/DDR2, and 8 MiB SPI NOR flash.
+- Authored beginner lesson on low-level embedded programming, physical proof-of-life (L2/L3/L7), and MIPS bare-metal MMIO memory mapping in [`docs/hardware-specs-and-baremetal.md`](docs/hardware-specs-and-baremetal.md).

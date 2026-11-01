@@ -6,7 +6,7 @@ Run a minimal native program on the owner's Askey RTV9015VW. **COMPLETE (Roadmap
 
 ## What works
 
-- Firmware `BR_SO_RTK_V6.1.8t`; OSK, big-endian mixed MIPS32/MIPS16 on Realtek RLX5181/RLX5281 core.
+- Firmware `BR_SO_RTK_V6.1.8t`; OSK, big-endian mixed MIPS32/MIPS16 on Realtek RLX5181/RLX5281 core. Hardware specs resolved: Realtek RTL8672 / RTL8671x SoC, ~300 MHz CPU, 100.1 MHz bus clock, 64 MiB physical DRAM, 8 MiB SPI flash ([docs/hardware-specs-and-baremetal.md](docs/hardware-specs-and-baremetal.md)).
 - Admin access mode 2 / priority 1 vendor console **`XDSL#`** exposes `webdll`, `loaddll`, `chksum`.
 - Native `xfile` RAM allocation, dynamic pointer discovery, and fail-closed cleanup verified.
 - Position-independent MIPS32 payload (`tools/build_native_payload.py`, 576 bytes, 0 relocations) executes cleanly in uncached KSEG1 (`0xa0...`).

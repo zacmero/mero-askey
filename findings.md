@@ -89,3 +89,13 @@ The live `xfile list` table prints reliably in Telnet and provides file-owned co
   10. `0x53554343` ("SUCC"): Complete execution lifecycle verified.
 - Uncached KSEG1 execution completely bypassed L1 I-cache/D-cache hazards, eliminating Harvard cache coherency obstacles.
 - Clean fail-closed release: file closed and deleted, and baseline 5-file filesystem inventory verified restored (`held=false`). Documented in [`docs/experiments/askey-net-010.md`](docs/experiments/askey-net-010.md).
+
+
+## Complete system hardware specs verified on silicon — 2026-11-01
+
+- Probed direct silicon MMIO registers and bootloader memory structures via [`tools/probe_hardware_specs.py`](tools/probe_hardware_specs.py).
+- **SoC & Processor:** Direct read of MMIO `0xb8000000` measured `0x00016405`. Silicon family `0x0001` (Realtek RLX5181/RLX5281 MIPS core), model code `0x6405` (Realtek RTL8672 / RTL8671x series). Silicon revision `0xb8000004` is `0x06405f00`.
+- **System Frequencies:** Global `0x8055a87c` measured exact bus clock `100,100,100` Hz (100.1 MHz). PLL multiplier register `0xb8000024` is `0x03210321` (3x multiplier), establishing effective CPU core clock of **~300 MHz**.
+- **Physical DRAM:** 64 MiB total physical SDRAM / DDR2. Memory controller timing register `0xb8001000` is `0x10201de0`, boundary `0xb8001204` is `0x03e00000`. Memory is divided into 32 MiB primary RTOS heap space (`0x80000000`–`0x82004df8`) and high DSP / hardware packet acceleration memory (`0xa8000000`–`0xa8008000`).
+- **Flash ROM:** 8 MiB (8,388,608 bytes) SPI NOR flash (`0xb4000000`–`0xb4800000`).
+- Documented low-level bare-metal concepts, 3-layer proof-of-life, and MMIO memory map in [`docs/hardware-specs-and-baremetal.md`](docs/hardware-specs-and-baremetal.md).
