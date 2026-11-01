@@ -2,7 +2,7 @@
 
 ## Goal and current milestone
 
-Run a minimal native program on the owner's Askey RTV9015VW. **COMPLETE (Roadmap Steps 1–4 verified).** Genuine native MIPS32 execution on the Askey RTV9015VW is fully demonstrated, independently verified via mailbox readback, and documented in [ASKEY-NET-010](docs/experiments/askey-net-010.md). The owned allocation was released cleanly (`held=false`) and baseline filesystem inventory verified. **Next horizon: exploring OS shell enablement and interactive execution.** [Roadmap](docs/native-execution-roadmap.md).
+Run a minimal native program on the owner's Askey RTV9015VW. **COMPLETE (Roadmap Steps 1–4 verified).** Genuine native MIPS32 execution on the Askey RTV9015VW is fully demonstrated, independently verified via mailbox readback, and documented in [ASKEY-NET-010](docs/experiments/askey-net-010.md). The owned allocation was released cleanly (`held=false`) and baseline filesystem inventory verified. Complete hardware specs verified on silicon ([docs/hardware-specs-and-baremetal.md](docs/hardware-specs-and-baremetal.md)). **Next horizon: memory scaling, interactive two-way I/O architectures (TCP socket bind shell, shared-memory ring buffer, Telnet CLI hooking), and home lab utilities.** Detailed roadmap: [docs/next_experiments.md](docs/next_experiments.md).
 
 ## What works
 
