@@ -38,10 +38,12 @@ Run a minimal native program on the owner's Askey RTV9015VW. **COMPLETE (Roadmap
 ## Connection and artifacts
 
 - Work from `/home/zacmero/projects/mero-askey` on mero-machine. Prefix shell commands with `rtk`.
-- Known MSI SSH endpoint: `cris@192.168.1.80`, key `/home/zacmero/.ssh/mero_stb_isolated_lab`, strict host checking. Recheck current route/neighbor before device traffic.
-- MSI Ethernet was `enp6s0`, `192.168.15.3`; Askey `192.168.15.1`. Preserve Wi-Fi control. Mero-machine has no direct lab route.
-- Private target/login inputs: `.local/capture-target.json`, `.local/router-login.json`. Raw experiments: `.local/askey-net-007/`, `008/`, `009/`.
+- **Target Topology Update (ASKEY-NET-011):** Askey LAN IP migrated to static `192.168.1.250/24` with DHCP server permanently disabled (`CONFIG_SERVICE_DHCP 0x0`). Connected directly to the unmanaged home network switch, allowing direct access from `mero-machine` (`enp5s0`) without the MSI laptop.
+- Historical MSI SSH endpoint: `cris@192.168.1.80`, key `/home/zacmero/.ssh/mero_stb_isolated_lab`. Retained as fallback link if the router undergoes a hard factory reset.
+- Hard reset recovery: If rear pin held 10–15s, router reverts to `192.168.15.1` with DHCP re-enabled; disconnect from switch immediately, connect directly to PC, and re-apply `tools/apply_dhcp_transition.py`.
+- Private target/login inputs: `.local/capture-target.json`, `.local/router-login.json`. Raw experiments: `.local/askey-net-007/`, `008/`, `009/`, `010/`, `011/`.
 - Full 8 MiB flash and running image are committed in `firmware/`; [manifest](firmware/manifest.json) has hashes. They are the **2026-10-27 snapshot**, before the latest settings change.
 - Decoded runtime: `.local/askey-net-006/analysis/runtime.bin`, load base `0x80000000`. Private GNU MIPS objdump/readbin: `.local/askey-net-006/analysis/cli-agent/`.
+
 
 Record actual outcomes and commit/push meaningful checkpoints. Keep raw/private/generated artifacts ignored. No firmware write, reset, new persistent setting/service or hardware connection is implied by this next step. The separate session-capability-field research avenue remains OPEN.

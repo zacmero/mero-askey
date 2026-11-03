@@ -99,3 +99,26 @@ The live `xfile list` table prints reliably in Telnet and provides file-owned co
 - **Physical DRAM:** 64 MiB total physical SDRAM / DDR2. Memory controller timing register `0xb8001000` is `0x10201de0`, boundary `0xb8001204` is `0x03e00000`. Memory is divided into 32 MiB primary RTOS heap space (`0x80000000`–`0x82004df8`) and high DSP / hardware packet acceleration memory (`0xa8000000`–`0xa8008000`).
 - **Flash ROM:** 8 MiB (8,388,608 bytes) SPI NOR flash (`0xb4000000`–`0xb4800000`).
 - Documented low-level bare-metal concepts, 3-layer proof-of-life, and MMIO memory map in [`docs/hardware-specs-and-baremetal.md`](docs/hardware-specs-and-baremetal.md).
+
+
+## Permanent DHCP deactivation & network subnet migration verified (ASKEY-NET-011) — 2026-11-03
+
+- Solved the unmanaged home network switch integration to eliminate dependency on the intermediate MSI laptop.
+- Evaluated 4 direct connection architectures: Option 3 (Static LAN IP + DHCP server disabled) selected to allow direct access from `mero-machine` without requiring additional hardware or keeping the laptop running.
+- Exported live preflight settings baseline from `form2saveConf.cgi`: 205,061 bytes, SHA-256 `4c5c8a2fe7c533aee6f7cff98ab2bd7e89345d8b9b8bbcface0d323d1cae7d44`.
+- Synthesized minimal candidate configuration modifying exactly 7 lines (`CONFIG_SERVICE_DHCP 0x0`, `LAN_PRIMARY_IP 192.168.1.250`, `NETWORK 192.168.1.0`, gateway/DNS `192.168.1.1`): 205,059 bytes, SHA-256 `f34f093d50bdf1b78fb3a5d4b0083e7fd721b831e4059d5c12cd025eb7db35bb`.
+- Uploaded candidate via native multipart settings import (`form2fileConf.htm`) using dedicated tool [`tools/apply_dhcp_transition.py`](tools/apply_dhcp_transition.py). Firmware returned HTTP 200 `Autoboot` / `"restore current setting! System is rebooting now..."` in 3.46 seconds.
+- Flash persistence: Settings committed to SPI NOR flash survive all ordinary power cycles.
+- Documented hard reset recovery protocol: physical rear reset clears flash to factory defaults (`192.168.15.1`, DHCP enabled); router must be disconnected from switch before reset to prevent DHCP address collisions.
+- Full experiment report in [`docs/experiments/askey-net-011.md`](docs/experiments/askey-net-011.md).
+
+
+## Telephone connection hardware analysis & VoIP subsystem — 2026-11-03
+
+- Analyzed the physical RJ11 Phone port (FXS / "TEL 1") vs RJ11 DSL WAN port vs yellow RJ45 Ethernet ports.
+- Electrical & architectural differences:
+  - Ethernet: low-voltage differential signaling (~1–2.5V), transformer-isolated, packet-switched.
+  - Phone (FXS): analog current loop driven by an on-board high-voltage Subscriber Line Interface Circuit (SLIC). Supplies **-48V DC** battery feed when idle, detects 20–30 mA loop current on off-hook, and generates **70–90V AC at 20–25 Hz** sinusoidal ringing voltage via a DC-to-DC boost inverter.
+- Firmware subsystem: Driven by resident Realtek VoIP engine (`rtk_voip`), hardware DTMF decoders/generators, audio codec DSP (G.711 PCM @ 8 kHz), and SIP client daemon in `/var/config` (`VOIP.PORT[0]`).
+- Documented 4 practical home lab uses: local Asterisk/FreePBX VoIP extension, DTMF interactive voice response (IVR) console, hardware physical alert ringer, and zero-telco intercom. Detailed in [`docs/hardware-specs-and-baremetal.md`](docs/hardware-specs-and-baremetal.md#6-the-telephone-connection-rj11-fxs-vs-rj11-dsl-wan-vs-rj45-ethernet).
+

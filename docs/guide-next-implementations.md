@@ -100,19 +100,76 @@ If you want to take the MSI laptop completely out of the equation:
 
 ---
 
-### Solution 3: Reconfigure Askey to a Client Node (Disable DHCP)
+### Solution 3: Reconfigure Askey to a Client Node (Disable DHCP) — *EXECUTED (ASKEY-NET-011)*
 
-If you want the Askey permanently connected to your main switch:
-1. While connected through the lab link, disable the Askey's DHCP server:
-   - Via web UI: `dhcp_onoff.htm` $\to$ Disable DHCP.
-   - Or via CLI: `cfgmib` / settings export modification.
-2. Change the Askey's LAN IP address from `192.168.15.1` to an unused static IP on your household subnet outside the main router's DHCP pool (e.g., `192.168.1.250`).
-3. Reboot the Askey and plug it into the switch.
-4. Now the Askey acts as a standard network node on your LAN; any device on your home network can reach `192.168.1.250:23` directly.
+**Status:** Successfully deployed and committed to flash memory ([ASKEY-NET-011](experiments/askey-net-011.md)).
+
+1. **Configuration Changes Applied:**
+   - `CONFIG_SERVICE_DHCP`: set to `0x0` (DHCP daemon permanently disabled).
+   - `LAN_PRIMARY_IP`: set to `192.168.1.250`.
+   - `NETWORK`: set to `192.168.1.0`.
+   - `IPROUTER` & `DNSSERVER1`: set to `192.168.1.1` (main household gateway).
+2. **Flash Persistence:**
+   - Settings in `/var/config` are committed to SPI NOR flash during the reboot sequence and survive all ordinary power cycles and shutdowns.
+3. **Connecting to the Unmanaged Switch:**
+   - The user unplugs the Ethernet cable from the MSI laptop and plugs it directly into any port on the unmanaged home network switch.
+   - The Askey responds on `192.168.1.250:23` (Telnet CLI) and `192.168.1.250:80` (Web UI) directly from `mero-machine` or any device on the home network.
 
 ---
 
-## 3. Next Implementation Roadmap & Possibilities
+### Comparison of Alternative Solutions Evaluated
+
+| Architecture | Setup Complexity | Hardware Required | Household Collision Risk | Why / When to Use |
+| :--- | :--- | :--- | :--- | :--- |
+| **Solution 3: Static IP + DHCP Disabled** *(Selected)* | Minimal (one config upload) | Existing unmanaged switch | **Zero** (daemon disabled) | **Chosen:** Allows direct access from `mero-machine` without turning on the MSI laptop and without buying new hardware. |
+| **Solution 1: Transparent SSH Tunnel** | Low (one SSH command) | MSI laptop running | **Zero** (isolated cable) | Useful if the user ever needs to revert the router to default subnet `192.168.15.1` without reconfiguring interfaces. |
+| **Solution 2: USB-Ethernet Adapter on `mero-machine`** | Low | USB-GbE adapter (~$10–15) | **Zero** (point-to-point link) | Ideal for air-gapped lab testing when the router runs unstable, experimental bare-metal network drivers. |
+| **Solution 4: Managed Switch 802.1Q VLAN** | Moderate | Managed switch (e.g. GS108E) | **Zero** (Layer 2 isolation) | Useful if running multiple experimental routers or testing DHCP server implementations. |
+
+---
+
+### Hard Reset & Recovery Procedure
+
+> [!CAUTION]
+> **What Happens on Hard Reset:**  
+> If the physical rear reset pin is pressed for 10–15 seconds, the bootloader clears the flash `/var/config` partition and restores factory firmware defaults:
+> - LAN IP reverts to `192.168.15.1`.
+> - Embedded DHCP server **re-enables automatically** (`CONFIG_SERVICE_DHCP=0x2`).
+> - Web/Telnet passwords revert to factory sticker defaults.
+
+#### Exact Recovery Steps:
+1. **Immediately disconnect the Askey from the network switch.** Do not power-cycle or reset the router while connected to the switch, as its re-enabled DHCP server will cause address collisions with the main router.
+2. Connect the Askey's yellow LAN port directly to a computer (MSI laptop or `mero-machine` via direct cable).
+3. Assign the computer's interface an IP on the default subnet:
+   ```sh
+   sudo ip addr add 192.168.15.3/24 dev enpX
+   ```
+4. Re-apply the verified candidate configuration using the automated delivery tool:
+   ```sh
+   python3 tools/apply_dhcp_transition.py
+   ```
+5. Wait ~50 seconds for the router to commit settings and reboot.
+6. Reconnect the Askey to the home network switch. It is now safely restored to static `192.168.1.250` with DHCP disabled.
+
+---
+
+## 3. The Telephone Connection (FXS Port): Capabilities & Lab Uses
+
+The Askey RTV9015VW features an RJ11 **FXS (Foreign eXchange Station)** phone port ("TEL 1") driven by a high-voltage Subscriber Line Interface Circuit (SLIC) and the resident Realtek `rtk_voip` DSP subsystem.
+
+Full hardware analysis and electrical specifications are documented in [**`docs/hardware-specs-and-baremetal.md` Section 6**](hardware-specs-and-baremetal.md#6-the-telephone-connection-rj11-fxs-vs-rj11-dsl-wan-vs-rj45-ethernet).
+
+### Key Takeaways:
+1. **Electrical Difference:** Unlike Ethernet (low-voltage differential digital pulses with galvanic transformers), the telephone port is an analog current loop supplying **-48V DC** battery feed and **70–90V AC** sinusoidal ringing voltage to power analog telephones.
+2. **Resident VoIP & DTMF:** The firmware includes real-time DTMF tone decoders and a SIP user agent.
+3. **Home Lab Uses:**
+   - **Local PBX Extension:** Register the router with an Asterisk / FreePBX server on `mero-machine` to use ordinary analog phones over VoIP.
+   - **DTMF Interactive Voice Responder (IVR):** Pick up the handset and press key combinations (`*1`, `*2`) to trigger lab automation scripts, check server status, or control relays.
+   - **Physical Alert Ringer:** Command the SLIC ring generator via software to physically ring an analog bell for critical home lab alerts.
+
+---
+
+## 4. Next Implementation Roadmap & Possibilities
 
 Detailed in [**`docs/next_experiments.md`**](next_experiments.md):
 

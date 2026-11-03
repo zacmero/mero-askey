@@ -104,3 +104,79 @@ The probe tool is completely safe, read-only, idempotent, and produces formatted
 ```sh
 python3 tools/probe_hardware_specs.py
 ```
+
+---
+
+## 6. The Telephone Connection (RJ11 FXS vs RJ11 DSL WAN vs RJ45 Ethernet)
+
+The Askey RTV9015VW features physical phone jacks alongside its 4 yellow RJ45 Ethernet ports:
+1. **DSL Port (RJ11, Gray):** WAN uplink for copper telephone lines carrying VDSL2 / ADSL2+ high-frequency carrier signals (up to 17 MHz / 30 MHz DMT modulation).
+2. **Phone Port (RJ11, Green / "TEL 1"):** **FXS (Foreign eXchange Station)** analog station interface for standard analog telephone sets.
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│               PORT COMPARISON: ETHERNET vs. PHONE (FXS)                │
+└────────────────────────────────────────────────────────────────────────┘
+
+  RJ45 Ethernet (LAN 1–4)            RJ11 Phone (FXS / TEL 1)
+  ───────────────────────            ────────────────────────
+  • Connector: 8P8C (4 pairs)        • Connector: 6P2C (1 pair: Tip & Ring)
+  • Signal: Digital differential     • Signal: Analog baseband audio (300–3400 Hz)
+  • Level: ~1.0V to 2.5V logic       • Idle Voltage: -48V DC battery feed!
+  • Isolation: Pulse transformers    • Ringing: 70–90V AC at 20–25 Hz!
+  • Controller: RTL8672 MAC/Switch   • Controller: SLIC (Subscriber Line Circuit)
+  • Stack: TCP/IP packet switching   • Stack: Realtek rtk_voip DSP / SIP client
+```
+
+### A. How FXS Differs Electrically & Architecturally
+
+A standard Ethernet port carries low-voltage high-speed digital pulses isolated by magnetic transformers. It cannot deliver analog telephone power.
+
+An analog telephone is a **current-loop circuit**:
+1. **Battery Feed (-48V DC):** When the telephone is sitting on its cradle (on-hook), the Askey's internal power supply feeds **-48V DC** across the two copper wires (Tip and Ring).
+2. **Loop Current & Hook Detection:** When someone picks up the handset (off-hook), the telephone's internal switch closes. A DC loop current of **20 mA to 30 mA** begins flowing. The router detects this current draw and triggers a hook event.
+3. **High-Voltage Ring Generator (70V–90V AC):** To make the physical brass bell inside an analog telephone ring, -48V DC is not enough. The router's internal DC-to-DC boost inverter generates an **AC sinusoidal wave of ~70V to 90V AC at 20 Hz to 25 Hz**. (Touching bare copper wires during ringing delivers a noticeable shock).
+4. **Hybrid 2-Wire to 4-Wire Separation:** In an RJ11 cable, both speaking and listening happen simultaneously across the **same single pair of wires** (full-duplex analog). The router's hybrid circuit separates incoming microphone audio from outgoing earphone audio.
+
+### B. The Silicon Hardware: The SLIC (Subscriber Line Interface Circuit)
+
+The Realtek RTL8672 SoC cannot drive -48V DC or 90V AC directly from its 3.3V / 1.8V silicon die.  
+Instead, the motherboard pairs the SoC with a specialized mixed-signal high-voltage chip called a **SLIC** (e.g. Silicon Labs ProSLIC or Zarlink).
+
+The SLIC chip performs all **BORSCHT** functions:
+- **B**attery Feed: Supplies constant current / -48V DC.
+- **O**vervoltage Protection: Clamps lightning surges and line faults.
+- **R**inging Generation: Synthesizes the ~80V AC ringing burst.
+- **S**upervision: Detects on-hook, off-hook, and hook-flash pulse dialing.
+- **C**odec: Converts analog audio to 8 kHz digital PCM samples (G.711 A-law/$\mu$-law).
+- **H**ybrid: Separates 2-wire bi-directional speech into 4-wire TX/RX.
+- **T**esting: Performs loop resistance and capacitance testing.
+
+### C. The Resident Firmware VoIP Subsystem (`rtk_voip`)
+
+The firmware contains a complete Realtek VoIP DSP engine:
+- **Driver / Tasks:** Driven by the `rtk_voip` kernel module and resident RTOS DSP tasks (`VOIP`, `IVR`).
+- **DTMF Tone Detector:** Dedicated DSP hardware filters detect touch-tone keypresses (`0`–`9`, `*`, `#`) from telephone keypads.
+- **Tone Synthesizer:** Can generate dial tones (350 Hz + 440 Hz), busy tones, and ringing tones.
+- **SIP Client:** Resident Session Initiation Protocol (SIP) user agent in `/var/config` (`VOIP.PORT[0]`).
+
+### D. Practical Home Lab Uses for the Phone Port
+
+The FXS port turns the router into an **ATA (Analog Telephone Adapter)**. Practical home lab applications:
+
+1. **Self-Hosted PBX Extension (Asterisk / FreePBX):**
+   - Run Asterisk or FreePBX on `mero-machine` or a local server.
+   - Configure the Askey's SIP client to register with Asterisk as extension `101`.
+   - Plug any standard desk phone or cordless phone into the Askey. You now have a working landline extension on your local network.
+
+2. **DTMF Tele-Operator / Physical Console Interface:**
+   - Because the DSP detects keypad tones in real-time, you can program the router to act as an **Interactive Voice Response (IVR) controller**.
+   - Example: Pick up the phone handset, press `*1` to hear network status, press `*2` to trigger a server backup, or press `*9` to reboot a lab machine.
+
+3. **Physical Alert Ringer (Network Bell):**
+   - The router can trigger the 80V AC ringer via software command.
+   - You can connect an old mechanical telephone or bell to serve as an audible alert for critical system failures (e.g., server offline, critical alert, automated doorbell).
+
+4. **Zero-Telco Room-to-Room Intercom:**
+   - If two routers with FXS ports (or an ATA and an IP phone) exist on the LAN, direct IP dialing can connect them without needing an outside telephone provider or cloud service.
+

@@ -203,3 +203,17 @@
 - Created and verified [`tools/probe_hardware_specs.py`](tools/probe_hardware_specs.py), probing silicon MMIO registers (`0xb8000000`, `0xb8000024`, `0xb8001000`, `0xb8001204`, `0xb8001300`) and bootloader memory structures (`0x8055a850`, `0x80630320`).
 - Confirmed full system hardware specs: Realtek RTL8672 / RTL8671x SoC (RLX5181/RLX5281 MIPS core), ~300 MHz CPU frequency, 100.1 MHz bus clock, 64 MiB total physical SDRAM/DDR2, and 8 MiB SPI NOR flash.
 - Authored beginner lesson on low-level embedded programming, physical proof-of-life (L2/L3/L7), and MIPS bare-metal MMIO memory mapping in [`docs/hardware-specs-and-baremetal.md`](docs/hardware-specs-and-baremetal.md).
+
+
+## 2026-11-03 — Permanent DHCP deactivation, subnet migration (ASKEY-NET-011) and phone hardware analysis delivered
+
+- Solved the unmanaged home network switch integration to eliminate dependency on the intermediate MSI laptop.
+- Evaluated 4 direct connection architectures: Option 3 (Static LAN IP + DHCP server disabled) selected to allow direct access from `mero-machine` without requiring additional hardware or keeping the laptop running.
+- Exported live preflight settings baseline from `form2saveConf.cgi`: 205,061 bytes, SHA-256 `4c5c8a2fe7c533aee6f7cff98ab2bd7e89345d8b9b8bbcface0d323d1cae7d44`.
+- Synthesized minimal candidate configuration modifying exactly 7 lines (`CONFIG_SERVICE_DHCP 0x0`, `LAN_PRIMARY_IP 192.168.1.250`, `NETWORK 192.168.1.0`, gateway/DNS `192.168.1.1`): 205,059 bytes, SHA-256 `f34f093d50bdf1b78fb3a5d4b0083e7fd721b831e4059d5c12cd025eb7db35bb`.
+- Uploaded candidate via native multipart settings import (`form2fileConf.htm`) using dedicated tool [`tools/apply_dhcp_transition.py`](tools/apply_dhcp_transition.py). Firmware returned HTTP 200 `Autoboot` / `"restore current setting! System is rebooting now..."` in 3.46 seconds.
+- Flash persistence: Settings committed to SPI NOR flash survive all ordinary power cycles.
+- Documented hard reset recovery protocol: physical rear reset clears flash to factory defaults (`192.168.15.1`, DHCP enabled); router must be disconnected from switch before reset to prevent DHCP address collisions.
+- Authored comprehensive hardware and signal analysis of the physical RJ11 Phone (FXS) port vs DSL WAN vs RJ45 Ethernet, including SLIC -48V DC battery feed, 70–90V AC ring generation, Realtek `rtk_voip` DSP engine, DTMF detection, and home lab uses (Asterisk PBX extension, DTMF IVR control, audible ringer, intercom).
+- Updated documentation: [`docs/experiments/askey-net-011.md`](docs/experiments/askey-net-011.md), [`docs/hardware-specs-and-baremetal.md`](docs/hardware-specs-and-baremetal.md#6-the-telephone-connection-rj11-fxs-vs-rj11-dsl-wan-vs-rj45-ethernet), and [`docs/guide-next-implementations.md`](docs/guide-next-implementations.md).
+
