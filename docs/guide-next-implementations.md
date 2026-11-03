@@ -157,7 +157,8 @@ If you want to take the MSI laptop completely out of the equation:
 
 The Askey RTV9015VW features an RJ11 **FXS (Foreign eXchange Station)** phone port ("TEL 1") driven by a high-voltage Subscriber Line Interface Circuit (SLIC) and the resident Realtek `rtk_voip` DSP subsystem.
 
-Full hardware analysis and electrical specifications are documented in [**`docs/hardware-specs-and-baremetal.md` Section 6**](hardware-specs-and-baremetal.md#6-the-telephone-connection-rj11-fxs-vs-rj11-dsl-wan-vs-rj45-ethernet).
+Full hardware analysis and electrical specifications are documented in [**`docs/hardware-specs-and-baremetal.md` Section 6**](hardware-specs-and-baremetal.md#6-the-telephone-connection-rj11-fxs-vs-rj11-dsl-wan-vs-rj45-ethernet).  
+Complete implementation guide for voice AI, room intercoms, DTMF automation, and Asterisk setup: [**`docs/telephony-and-voice-automation.md`**](telephony-and-voice-automation.md).
 
 ### Key Takeaways:
 1. **Electrical Difference:** Unlike Ethernet (low-voltage differential digital pulses with galvanic transformers), the telephone port is an analog current loop supplying **-48V DC** battery feed and **70–90V AC** sinusoidal ringing voltage to power analog telephones.

@@ -28,6 +28,7 @@ The project is transitioning from a minimal execution proof to building interact
 - [**Network Migration & DHCP Deactivation (ASKEY-NET-011)**](docs/experiments/askey-net-011.md): Migrated LAN IP to static `192.168.1.250` and permanently disabled DHCP server daemon to enable direct unmanaged switch connection from `mero-machine`.
 - [**Master Guide to Next Implementations & Lab Topology**](docs/guide-next-implementations.md): Complete guide to direct `mero-machine` connection, switch safety/DHCP risks, hard reset recovery, and interactive architectures.
 - [**Hardware Specs & Phone Port Analysis**](docs/hardware-specs-and-baremetal.md): Low-level memory architecture, MMIO registers, and physical RJ11 Phone (FXS) port analysis (-48V DC, 90V AC ring generation, Realtek VoIP/DTMF subsystem).
+- [**Telephony, Voice AI & Home Lab Automation Guide**](docs/telephony-and-voice-automation.md): Complete guide to using the Askey FXS phone port for local room intercoms, phoning an AI agent (Whisper/LLM/TTS over SIP), DTMF keypad automation, and physical alert ringing.
 - [**Next Experiments Roadmap**](docs/next_experiments.md): Memory scaling to megabytes (`sys_mem_alloc` at `0x80011b74`), the 3 two-way I/O architectures (TCP socket bind shell, shared-memory ring buffer, Telnet CLI hooking), and practical home lab utility concepts (micro-iperf server, hardware packet tap).
 
 
