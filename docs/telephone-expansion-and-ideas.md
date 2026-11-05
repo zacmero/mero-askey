@@ -46,6 +46,42 @@ Keep this isolated from live household/public telephone wiring. Never connect tw
 
 The [MOTO700 handoff](telephony-moto700-pilot-handoff.md#gate-3--subsequent-rotary-replacement) already distinguishes mechanical pulse dialing from speech/ringing compatibility.
 
+## Owner's newly identified accessories — 2026-11-05 (photo inventory)
+
+These are **owner-supplied photos and untested observations**, not hardware teardown results. No equipment was opened, electrically measured, connected, or modified during this documentation.
+
+| Object observed | Identification and source | Proper role / current limit |
+| --- | --- | --- |
+| White Opticom **MF42T** box with one attached modular cord; female sockets marked **Telefone** and **ADSL**; cord marked **Linha** | Owner label: **Opticom Communications MF42T**, ANATEL **0030-07-1714** (printed 0030-07-1714), lot **08/08**. The exact older Opticom registration appears in [2007 certification listings](https://www.radardatelecom.com/certificacoes/fabricante/opticom-communications-do-brasil-ltda). | **ADSL/POTS microfilter**, with filtered telephone leg and unfiltered modem leg. **NOT a two-telephone parallel splitter**. Do not treat `ADSL` as a second telephone outlet. |
+| Beige, square **PM-1** surface-mount unit; one modular phone jack in front | Owner's photograph shows **PM-1** and a single visible modular jack; manufacturer and internal terminals **not confirmed**. | Appears to be a passive **single-outlet telephone wall box**, potentially useful to terminate a future bedside cable **after its rear terminals/wiring are identified**. Not an independent second line or a two-way splitter. |
+
+Relevant source references: [Cisco POTS splitters and microfilters](https://www.cisco.com/c/en/us/support/docs/long-reach-ethernet-lre-digital-subscriber-line-xdsl/asymmetric-digital-subscriber-line-adsl/12933-splitters.html) and [Netgear installation explanation](https://kb.netgear.com/22205/How-to-correctly-install-ADSL-micro-filters), which clearly distinguish a **filtered phone socket** from an **unfiltered DSL/modem socket**.
+
+### Two actual phones on one Askey FXS line (no live trial yet)
+
+Required object is **one-line RJ11/RJ12-compatible telephone *parallel* Y adapter / `duplicador de linha telefônica 1 macho → 2 fêmeas`**. Verify that its central tip/ring pair is physically **parallel to both female outputs**, not a two-line L1/L2 separator, DSL microfilter, or powered network equipment. A short telephone extension cable can lead to the PM-1 outlet by the bedside **if suitable wiring is confirmed**.
+
+```text
+Askey PHONE / FXS  (extension 10)
+        |
+   verified parallel Y
+      /          \
+  MOTO700      future vintage corded phone
+   desktop            bedside
+```
+
+Both instruments are **one shared analog circuit**: same extension 10; both may ring; answering one seizes that line; picking up the other can join/hear the same conversation; **they cannot dial each other**. Additional old-fashioned bell loads may exceed Askey's as-yet-unknown REN capacity. Do not infer it from other ATAs. Test vintage phone **alone** first for off-hook, ringing/bell and pulse dialing separately; only then, after checking FXS load and parallel wiring, test together. Disconnect if ringing fails or speech quality deteriorates. Keep wiring isolated from active telco line and other FXS ports.
+
+### Caller-ID lab — first priority, no handset modification
+
+MOTO700 published specs describe **caller-ID reception using DTMF/FSK** and a **20-name/number phonebook** ([MOTO700 specs](https://www.kabum.com.br/produto/100695/telefone-sem-fio-motorola-identificador-de-chamadas-dect-6-0-digital-bivolt-preto-moto700)). Asterisk supports channel caller identity through `CALLERID(name)` and `CALLERID(num)` ([Asterisk documentation](https://docs.asterisk.org/Latest_API/API_Documentation/Dialplan_Functions/CALLERID/)).
+
+A proposed **test-only** PBX outgoing call to `PJSIP/10` sets a **distinct private caller number** (for example `1100` or `1200`) and name (`SUZY` / `SERA`) **before** dial, using a dedicated private dialplan route. First determine what *actual* number, if any, the Askey passes as FSK/DTMF caller-ID to the handset. A SIP display name is **not a guarantee** of analog display-name delivery. If MOTO700 matches incoming number to a saved phonebook contact, manually create `1100 → SUZY` and `1200 → SERA` and test both. Match the exact digits the handset receives; if one route does not work, audit the FXS CLIP format/enable controls read-only before attempting persistent changes. No calls or configuration changes were made for this proposal.
+
+### Scope and owner's explicit hardware boundary
+
+Owner does **not** want to open or physically modify the Motorola handset/base now. Continue with PBX, caller-ID and other **external-only** experiments. Keep the firmware-archaeology idea for later experience on other devices. Do not request a PCB photo, connect CH341A/JTAG/UART probes, or schedule a teardown as the next step.
+
 ## Useful and playful next ideas
 
 | Idea | First small implementation | Additional requirement |
