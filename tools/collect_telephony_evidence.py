@@ -24,6 +24,7 @@ def main():
                'channeltypes.txt': ['docker', 'exec', 'mero-askey-pbx', 'asterisk', '-rx', 'core show channeltypes'],
                'dialplan.txt': ['docker', 'exec', 'mero-askey-pbx', 'asterisk', '-rx', 'dialplan show from-moto700'],
                'pbx.log': ['docker', 'logs', '--timestamps', 'mero-askey-pbx'],
+               'phone-worker.log': ['journalctl', '--user', '-u', 'command-phone.service', '-n', '100', '--no-pager'],
                'image-id.txt': ['docker', 'inspect', '--format', '{{.Image}}', 'mero-askey-pbx']}
     hashes = {}
     for name, command in queries.items():

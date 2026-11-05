@@ -47,7 +47,7 @@ def main():
         dialplan = cli('dialplan show from-moto700').stdout
         if not all(x in dialplan for x in ('19', 'Echo()', '*20', 'Playback(hello-world)', '*29', 'Read(DIGIT')):
             raise RuntimeError('Pilot dialplan did not load')
-        for module in ('chan_pjsip.so', 'res_pjsip_pubsub.so', 'app_echo.so', 'app_playback.so', 'app_read.so', 'app_system.so', 'app_verbose.so'):
+        for module in ('chan_pjsip.so', 'res_pjsip_pubsub.so', 'app_echo.so', 'app_playback.so', 'app_read.so', 'app_system.so', 'app_verbose.so', 'res_agi.so'):
             if module not in cli('module show like ' + module).stdout:
                 raise RuntimeError('Required module is missing: ' + module)
         if 'PJSIP' not in cli('core show channeltypes').stdout:

@@ -21,6 +21,12 @@ def main():
         os.chmod(account, 0o600)
     if credentials['server'] != '192.168.1.97' or credentials['phone'] != '192.168.1.250':
         raise RuntimeError('Re-review the bind address and phone ACL before preparing configs')
+    worker_account = root / '.local/telephony-command/account.json'
+    commands = {}
+    if worker_account.exists():
+        worker = json.loads(worker_account.read_text())
+        for action in ('cinema_on', 'cinema_off'):
+            commands[action] = 'AGI(agi://' + worker['bind'] + ':' + str(worker['port']) + '/' + worker['token'] + '/' + action + ')'
     configs = {
         'pjsip.conf': '''[transport-lab]
 type=transport
@@ -112,6 +118,8 @@ exten => s,1,Answer()
  same => n,GotoIf($["${MENU_CHOICE}" = "9"]?menu)
  same => n,GotoIf($["${MENU_CHOICE}" = "1"]?audio)
  same => n,GotoIf($["${MENU_CHOICE}" = "2"]?network)
+ same => n,GotoIf($["${MENU_CHOICE}" = "3"]?cinemaon)
+ same => n,GotoIf($["${MENU_CHOICE}" = "4"]?cinemaoff)
  same => n,Playback(custom/lab-invalid)
  same => n,Goto(menu)
  same => n(audio),Playback(hello-world)
@@ -123,6 +131,18 @@ exten => s,1,Answer()
  same => n(up),Playback(custom/lab-network-up)
  same => n,Goto(menu)
  same => n(down),Playback(custom/lab-network-down)
+ same => n,Goto(menu)
+ same => n(cinemaon),Set(PHONE_COMMAND_RESULT=failed)
+ same => n,PHONE_CINEMA_ON
+ same => n,GotoIf($["${PHONE_COMMAND_RESULT}" = "on"]?cinemaenabled:cinemafailed)
+ same => n(cinemaenabled),Playback(custom/lab-cinema-on)
+ same => n,Goto(menu)
+ same => n(cinemaoff),Set(PHONE_COMMAND_RESULT=failed)
+ same => n,PHONE_CINEMA_OFF
+ same => n,GotoIf($["${PHONE_COMMAND_RESULT}" = "off"]?cinemarestored:cinemafailed)
+ same => n(cinemarestored),Playback(custom/lab-cinema-off)
+ same => n,Goto(menu)
+ same => n(cinemafailed),Playback(custom/lab-command-failed)
  same => n,Goto(menu)
  same => n(idle),Playback(custom/lab-idle)
  same => n,Goto(menu)
@@ -163,6 +183,8 @@ load=app_read.so
 load=app_record.so
 load=app_system.so
 load=app_verbose.so
+load=res_speech.so
+load=res_agi.so
 load=res_clioriginate.so
 ''',
         'logger.conf': '[logfiles]\nconsole => notice,warning,error,verbose\n',
@@ -182,6 +204,7 @@ astlogdir => /var/log/asterisk
 ''',
     }
     etc = out / 'etc'
+    configs['extensions.conf'] = configs['extensions.conf'].replace('PHONE_CINEMA_ON', commands.get('cinema_on', 'NoOp(Phone command worker is not configured)')).replace('PHONE_CINEMA_OFF', commands.get('cinema_off', 'NoOp(Phone command worker is not configured)'))
     etc.mkdir(mode=0o700, exist_ok=True)
     for name, body in configs.items():
         path = etc / name

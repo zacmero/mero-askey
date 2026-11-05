@@ -16,11 +16,14 @@ def main():
     staging = out / 'staging'
     staging.mkdir(mode=0o700, exist_ok=True)
     prompts = {
-        'lab-menu': 'Welcome back. You have reached your private line. Press one for an audio test. Press two to check the Askey connection. Press nine to hear your choices again. Press zero when you wish to leave.',
+        'lab-menu': 'Welcome back. You have reached your private line. Press one for an audio test. Press two to check the Askey connection. Press three for cinema on the Bravia. Press four to restore your screens. Press nine to hear your choices again. Press zero when you wish to leave.',
         'lab-network-up': 'The Askey web port is reachable. This checks the local connection, not internet access.',
         'lab-network-down': 'The Askey web port did not respond within three seconds.',
         'lab-invalid': 'That key has no action.',
         'lab-idle': 'The line is still open. Let me repeat your choices.',
+        'lab-cinema-on': 'Cinema mode is ready on your Bravia. Enjoy the show.',
+        'lab-cinema-off': 'Your screens have been restored.',
+        'lab-command-failed': 'That command could not be completed. Your command log has the details.',
     }
     active = subprocess.check_output(['docker', 'exec', 'mero-askey-pbx', 'asterisk', '-rx', 'core show channels concise'], text=True)
     if active.strip():
@@ -52,7 +55,7 @@ def main():
         for name in prompts:
             subprocess.run(['docker', 'cp', str(out / (name + '.wav')),
                             'mero-askey-pbx:/usr/share/asterisk/sounds/custom/'], check=True, capture_output=True)
-    print('Five fixed prompts generated locally with ' + args.engine + ' and installed. No external speech service used.')
+    print(str(len(prompts)) + ' fixed prompts generated locally with ' + args.engine + ' and installed. No external speech service used.')
 
 
 if __name__ == '__main__':

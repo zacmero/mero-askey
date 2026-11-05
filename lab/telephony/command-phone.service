@@ -1,0 +1,12 @@
+[Unit]
+Description=Allowlisted phone commands for the desktop user
+
+[Service]
+ExecStart=/usr/bin/python3 %h/projects/mero-askey/tools/command_phone.py serve
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=5
+NoNewPrivileges=yes
+
+[Install]
+WantedBy=default.target
