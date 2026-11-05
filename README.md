@@ -28,6 +28,8 @@ Direct memory-mapped I/O (MMIO) register reads confirmed the exact hardware spec
 
 **Keypad command menu verified:** [ASKEY-VOICE-002](docs/experiments/askey-voice-002.md) demonstrates in-call digit reception and a spoken menu with a fixed bounded Askey network connection check (`2`) and hang-up (`0`), both owner-confirmed. Agent bridges and phone-originated short-code forwarding remain next steps.
 
+**Implementation map and current operation:** [How the telephone lab works](docs/telephony-implementation-map.md) explains PBX/process lifetime, startup behavior, source files/languages, call logic, the local neural female voice and the revised idle behavior. The owner has now confirmed direct handset dialing of `20`.
+
 The project is transitioning from a minimal execution proof to building interactive home lab tools:
 - [**Network Migration & DHCP Deactivation (ASKEY-NET-011)**](docs/experiments/askey-net-011.md): Migrated LAN IP to static `192.168.1.250` and permanently disabled DHCP server daemon to enable direct unmanaged switch connection from `mero-machine`.
 - [**Master Guide to Next Implementations & Lab Topology**](docs/guide-next-implementations.md): Complete guide to direct `mero-machine` connection, switch safety/DHCP risks, hard reset recovery, and interactive architectures.

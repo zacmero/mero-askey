@@ -1,5 +1,9 @@
 # Telephony progress — 2026-11-04
 
+Owner requested frequent-use startup, container/secret/config explanation, and a Bravia cinema phone action. Corrected unsupported restart policy "yes" to unless-stopped and updated the live container without recreation. Located the existing cinema script's --monitor argument and the Sony display DP-1. Preparing a separate user-side host command dispatcher; no Askey changes are part of the phone command service.
+
+Owner confirmed direct dialing 20, reported an unexpected mid-menu disconnect, and requested an explanation plus a less robotic female voice. Inspected live restart policy and media/session settings; Docker is enabled, but PBX restart policy is no. Removed the menu count cap, changed idle hang-up to retry after 60 seconds, and loaded NOTICE diagnostics. Installed Piper 1.8.0 in a private Python 3.12 environment, downloaded the Lessac female narration model, corrected stdout generation with -f -, and installed five local prompts. Owner liked the preview. Wrote the full implementation map; agent/cloud adapters remain deferred.
+
 Committed and pushed the first telephony milestone as 2565e5b. Continued with an incoming keypad test: owner confirmed hearing seven after pressing 7. Added an incoming menu, local speech prompts and a fixed three-second Askey TCP connection check; requested the owner test menu option 2 then 0. No further router setting change was required.
 
 Owner confirmed the menu's successful connection result and option 0 hang-up. Keypad-to-network-action-to-spoken-result path is demonstrated. Outgoing short-code forwarding and agent runtime integration remain separate work.

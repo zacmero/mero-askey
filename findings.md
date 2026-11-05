@@ -1,5 +1,9 @@
 # Telephony findings — 2026-11-04
 
+- Current implementation map: docs/telephony-implementation-map.md. Docker startup is enabled, but PBX restart policy is no, so the PBX is not automatically started after reboot.
+- User confirmed direct dialing 20. A reported disconnect could not be attributed precisely; known prototype limits (four entries and 15-second idle hang-up) were removed/replaced with 60-second idle retry. Live RTP inactivity timeouts are zero; SIP session refresh setting is 1800 seconds.
+- Piper 1.8.0 / en_US-lessac-medium now generates the female prompt assets locally. User liked the initial preview; explicit CLI -f - is needed for WAV stdout rather than local playback. No cloud account is used.
+
 - Owner reports a working MOTO700 connected to the green Askey PHONE port. Pressing call produces silence; calls and ringing are not yet demonstrated.
 - Workstation route to 192.168.1.250 is enp5s0, source 192.168.1.97. Neighbor matches the previously recorded Askey identity. Docker is available; Asterisk is not installed and no SIP listener was detected.
 - Archived 2026-10-27 XML has port-0 proxy enable 0, empty proxy/registrar addresses, and a VOIP.INTERFACE field. This is historical evidence, not current live state.

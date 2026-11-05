@@ -104,8 +104,9 @@ exten => s,1,Answer()
 exten => s,1,Answer()
  same => n,Set(MENU_COUNT=0)
  same => n(menu),Set(MENU_COUNT=$[${MENU_COUNT}+1])
- same => n,GotoIf($[${MENU_COUNT}>4]?done)
- same => n,Read(MENU_CHOICE,custom/lab-menu,1,,1,15)
+ same => n,Read(MENU_CHOICE,custom/lab-menu,1,,1,60)
+ same => n,Log(NOTICE,LAB_MENU_INPUT status=${READSTATUS} choice=${MENU_CHOICE})
+ same => n,GotoIf($["${READSTATUS}" = "TIMEOUT"]?idle)
  same => n,GotoIf($["${READSTATUS}" != "OK"]?done)
  same => n,GotoIf($["${MENU_CHOICE}" = "0"]?done)
  same => n,GotoIf($["${MENU_CHOICE}" = "9"]?menu)
@@ -123,7 +124,10 @@ exten => s,1,Answer()
  same => n,Goto(menu)
  same => n(down),Playback(custom/lab-network-down)
  same => n,Goto(menu)
+ same => n(idle),Playback(custom/lab-idle)
+ same => n,Goto(menu)
  same => n(done),Hangup()
+exten => h,1,Log(NOTICE,LAB_MENU_END cause=${HANGUPCAUSE} entries=${MENU_COUNT} last_choice=${MENU_CHOICE})
 ''',
         'rtp.conf': '[general]\nrtpstart=10000\nrtpend=10019\nstrictrtp=yes\n',
         'modules.conf': '''[modules]
@@ -158,6 +162,7 @@ load=app_playback.so
 load=app_read.so
 load=app_record.so
 load=app_system.so
+load=app_verbose.so
 load=res_clioriginate.so
 ''',
         'logger.conf': '[logfiles]\nconsole => notice,warning,error,verbose\n',

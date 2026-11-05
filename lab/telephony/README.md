@@ -21,6 +21,10 @@ rtk docker exec mero-askey-pbx asterisk -rx 'pjsip show contacts'
 
 The preparation tool reuses the existing private password; it does not rotate a working endpoint. The check starts a disposable container with **no external network**, verifies the endpoint/dialplan/modules and removes that test container. A running PBX does not prove a completed call.
 
+The prompt builder now defaults to local **Piper neural TTS** with `en_US-lessac-medium`, rather than eSpeak formant speech. First install the private environment/model using the steps in the [implementation map](../../docs/telephony-implementation-map.md#voice-generation). The explicit `--engine espeak` option remains available. Calls play pre-generated WAV files; they do not invoke a cloud model or TTS server.
+
+The owner confirmed that dialing `20` directly works. After a reported disconnect, the menu's four-entry cap was removed and the old 15-second idle hang-up changed to a 60-second wait followed by an announcement and menu retry. The exact original disconnect cause was not proven. Menu NOTICE logs now retain input state and hang-up cause. At the owner's request restart policy is now `unless-stopped`, applied to the running container as well as Compose. Automatic boot recovery has not been tested by rebooting the workstation.
+
 ## Phone interface
 
 | Dial | Current PBX route | Verification status |

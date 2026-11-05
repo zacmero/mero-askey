@@ -6,7 +6,7 @@ services:
     ports:
       - "192.168.1.97:5060:5060/udp"
       - "192.168.1.97:10000-10019:10000-10019/udp"
-    restart: "no"
+    restart: unless-stopped
     volumes:
       - ../../.local/telephony-pbx/etc:/etc/asterisk:ro
       - ../../.local/telephony-pbx/sounds:/usr/share/asterisk/sounds/custom:ro
