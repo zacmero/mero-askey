@@ -32,6 +32,9 @@ Direct memory-mapped I/O (MMIO) register reads confirmed the exact hardware spec
 
 **Desktop command center:** Menu `3` now enables cinema specifically on the Sony Bravia, independent of cursor/focus, and `4` restores screens; both are owner-verified. [ASKEY-VOICE-003](docs/experiments/askey-voice-003.md) and the [CLI/configuration/secrets guide](docs/phone-command-center.md) explain the separate host-side command worker and how to extend it. PBX restart policy is `unless-stopped`.
 
+- [**Telephone operations quick reference**](docs/telephony-operations.md): Asterisk CLI, container Linux shell, menu/prompt/worker updates, start/stop/rebuild and private evidence operations.
+- [**Telephone expansion and ideas**](docs/telephone-expansion-and-ideas.md): Rotary compatibility, two phones sharing one line versus independent extensions, and a brainstorm of useful next experiments.
+
 The project is transitioning from a minimal execution proof to building interactive home lab tools:
 - [**Network Migration & DHCP Deactivation (ASKEY-NET-011)**](docs/experiments/askey-net-011.md): Migrated LAN IP to static `192.168.1.250` and permanently disabled DHCP server daemon to enable direct unmanaged switch connection from `mero-machine`.
 - [**Master Guide to Next Implementations & Lab Topology**](docs/guide-next-implementations.md): Complete guide to direct `mero-machine` connection, switch safety/DHCP risks, hard reset recovery, and interactive architectures.

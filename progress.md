@@ -1,5 +1,7 @@
 # Telephony progress — 2026-11-04
 
+2026-11-05 documentation continuation: added a dedicated operations runbook covering host versus container commands, CLI/shell access, generator/reload workflow, prompts, worker and container lifecycle. Added rotary/parallel-phone compatibility limits and a concrete ideas backlog. No hardware connection, phone test or service change was performed for this documentation task.
+
 Phone command-center milestone: added tools/command_phone.py and an enabled user FastAGI service; configured private peer/token authentication and exact Bravia selection via the existing cinema script. Owner verified menu 4 restore, cursor elsewhere, menu 3 cinema on Bravia and restore again. Unit/auth integration and isolated PBX tests passed. No router setting or global desktop script changed. Added the container CLI/config/secrets guide. Voice/usability/startup milestone committed/pushed as 528edce.
 
 Owner requested frequent-use startup, container/secret/config explanation, and a Bravia cinema phone action. Corrected unsupported restart policy "yes" to unless-stopped and updated the live container without recreation. Located the existing cinema script's --monitor argument and the Sony display DP-1. Preparing a separate user-side host command dispatcher; no Askey changes are part of the phone command service.

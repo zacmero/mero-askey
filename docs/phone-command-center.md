@@ -1,5 +1,7 @@
 # Phone command center: access, configuration and desktop actions
 
+For a task-oriented command reference, see [telephone operations](telephony-operations.md): CLI/shell access, menu reloads, prompt updates, worker management and container lifecycle. For rotary/two-phone questions and future ideas, see [telephone expansion](telephone-expansion-and-ideas.md).
+
 Implemented 2026-11-04. The owner verified menu `4` restoring screens and `3` entering cinema on the Bravia while the cursor was on another screen.
 
 ## Accessing Asterisk and the container
