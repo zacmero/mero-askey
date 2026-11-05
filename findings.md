@@ -1,3 +1,20 @@
+# Telephony findings — 2026-11-04
+
+- Owner reports a working MOTO700 connected to the green Askey PHONE port. Pressing call produces silence; calls and ringing are not yet demonstrated.
+- Workstation route to 192.168.1.250 is enp5s0, source 192.168.1.97. Neighbor matches the previously recorded Askey identity. Docker is available; Asterisk is not installed and no SIP listener was detected.
+- Archived 2026-10-27 XML has port-0 proxy enable 0, empty proxy/registrar addresses, and a VOIP.INTERFACE field. This is historical evidence, not current live state.
+- Native execution succeeded in ASKEY-NET-010. The raw execution, independent verification and cleanup log hashes match the published report.
+- RFC 4706 defines complementary central-office and subscriber ADSL transceiver roles. A future private copper experiment needs an appropriate central-office peer and confirmed Askey DSL compatibility.
+- The captured firmware contains voip_basic.htm, voip_advanced.htm and voip_status.htm. The status form distinguishes SIP number and registration status.
+- Live audit: export exactly matches the ASKEY-NET-011 candidate; voice proxy 0 is disabled and server/account fields empty, VOIP.INTERFACE empty. Native basic form offers any and br0. Evidence is under .local/askey-voice-001/1793839798488748348/.
+- Current host is EndeavourOS, not the Mint laptop. Docker is available; native apt-cache is absent. PBX packaging is isolated in an Ubuntu container build.
+- Owner approved the actual PBX/voice change. Extension 10 is registered; export hash 196d00dc35953438be29c72fba6f7d5085c05586446387e2145496a7e44abab2. Native forms need DOM order and a fresh CSRF field; 301 is the observed submission redirect. Main and backup proxies share line identity. Empty field submissions do not clear stored identity strings.
+- Owner confirmed incoming ringing and hello-world playback, then heard their own six-second microphone recording played back. This proves audio in both directions. Recording retained privately in .local/askey-voice-001/pbx-1793842751261590295/. Outgoing echo and DTMF remain unverified.
+
+---
+
+# Earlier recorded work (preserved)
+
 # Final findings — 2026-10-27
 
 ## Verified capture

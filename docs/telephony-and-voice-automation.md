@@ -1,6 +1,8 @@
 # Telephony, Voice AI & Home Lab Automation Guide
 
-> **Implementation status (2026-11-04):** This is an architecture and experiment proposal, **not** proof of working SIP registration, FXS line power/ringing voltages, two-way calls, or AI voice integration on the owner's Askey. The first available handset has been identified as a **Motorola MOTO700 cordless DECT 6.0**; its **base needs a separate correct power adapter** and the handset needs rechargeable batteries. Follow the [model-specific MOTO700 pilot handoff](telephony-moto700-pilot-handoff.md) before testing; use DTMF first. Actual voltage, firmware dial behavior and local SIP registration remain unmeasured. The MOTO700's electronic pulse mode does not validate rotary-dial support.
+**Current implementation:** See the [dial-code lab](telephony-dial-code-lab.md) and [ASKEY-VOICE-001](experiments/askey-voice-001.md). The Askey is registered to the private PBX as extension `10`. The owner confirmed incoming ringing, hello-world playback and hearing a six-second microphone recording played back. DTMF menus, voice-agent bridges and network-command actions remain next steps. Older examples below describe proposed capabilities unless the dated experiment verifies them.
+
+> **Scope:** The architecture below includes future proposals. Working registration and bidirectional audio are now documented above; exact FXS voltages, rotary-dial support and AI integration remain unverified. The available handset is the **Motorola MOTO700 cordless DECT 6.0**. Its electronic pulse mode does not validate a mechanical rotary phone.
 
 
 **Target Device:** Askey RTV9015VW Gateway (`BR_SO_RTK_V6.1.8t`).  

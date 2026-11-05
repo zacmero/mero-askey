@@ -1,3 +1,30 @@
+# Telephony lab implementation — 2026-11-04
+
+Goal: document the future DSL copper lab and dial-code automation, then establish the current Askey voice state and prepare the first private PBX call experiment.
+
+## Phases
+
+1. Record scope, existing equipment and current network — complete.
+2. Add DSL guide and telephony dial-code design — complete.
+3. Inspect live voice settings/status through authenticated read-only operations — complete.
+4. Prepare the smallest justified PBX experiment, with a concrete configuration and rollback — complete. Owner explicitly approved and the deployment/voice change were applied; registration and dial tone are confirmed.
+5. Verify documentation/tools and run handset call tests — complete. Owner confirmed incoming ringing, hello-world audio and six-second microphone recording/playback. The call path works in both directions. Outgoing digit/DTMF menus are the next separate experiment.
+
+Persistent Askey voice changes need an explicit operation and rollback under AGENTS.md. Prepare and review the actual fields before deciding whether a change is covered by the owner's instruction. No factory reset, DSL hookup or firmware write is part of this task.
+
+## Errors
+
+- apt-cache was absent; host OS inspection shows EndeavourOS. Use the isolated Ubuntu PBX build instead of host package installation.
+- One documentation patch expected 'for this handoff'; exact text was 'by this handoff'. Read the exact line and corrected the patch.
+- Isolated PBX startup exposed Ubuntu package paths: modules live under /usr/lib/x86_64-linux-gnu/asterisk/modules and data/documentation under /usr/share/asterisk. Correct the generated paths; retain startup diagnostics privately.
+- Default runtime opens internal ephemeral sockets. Replaced host networking with a private Docker network publishing only approved SIP/RTP ports.
+- Native form submission returns 301; new checked controls must preserve DOM order before the final dispatch marker. Fresh readback and an audited partial-state continuation were used before completing the approved change.
+- chan_pjsip requires res_pjsip_pubsub. Added the dependency and strengthened the isolated validation to check the actual call driver.
+
+---
+
+# Earlier recorded work (preserved)
+
 # Native execution road — 2026-10-31
 
 Recorded in [native execution roadmap](docs/native-execution-roadmap.md). **Roadmap Steps 1–4 are COMPLETE**: resident cache contracts resolved ([research/instruction-mode-cache-contracts.md](research/instruction-mode-cache-contracts.md)), the 576-byte PIC MIPS32 entry/cleanup payload built and verified ([docs/native-payload.md](docs/native-payload.md), [`tools/build_native_payload.py`](tools/build_native_payload.py)), and genuine native execution verified on-target with 10 matching mailbox markers, stable CLI console, and clean allocation release ([ASKEY-NET-010](docs/experiments/askey-net-010.md), [`tools/run_native_trial.py`](tools/run_native_trial.py)). Next goal: explore OS shell enablement and interactive execution. No test allocation remains held (`held=false`).

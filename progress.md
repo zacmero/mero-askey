@@ -1,3 +1,17 @@
+# Telephony progress — 2026-11-04
+
+Reviewed the telephony handoff and archived settings, confirmed the current workstation route and recorded neighbor identity, and inventoried available local tools/listeners. No voice setting or PBX service has been changed.
+
+Added the DSL copper guide, dial-code/voice-interface guide, links and baseline experiment. The read-only voice inspector passed live and saved a fresh export matching ASKEY-NET-011. Prepared private endpoint credentials and a minimal container PBX configuration. Container image build is in progress; no Askey voice changes have been applied.
+
+Owner explicitly approved PBX startup and the reviewed voice-only change. Built/validated the image, started the dedicated container, applied the native form with fresh CSRF and correct DOM order, and verified extension 10 registration plus unchanged LAN/DHCP. Owner reports dial tone and dialing, but first echo had no voice. Fixed the omitted res_pjsip_pubsub dependency, loaded chan_pjsip, strengthened the validation and requested another echo trial. No successful speech/ringing/DTMF claim yet.
+
+Owner requested a direct incoming call and confirmed ringing plus hello-world playback. A first record/playback call was missed; the owner explicitly requested another call when ready. The retry completed and the owner confirmed hearing their own voice. Retained a six-second, mono 8 kHz/16-bit PCM test recording and PBX evidence privately. Updated guides and next-agent handoff with the achieved milestone. No DTMF/network-action or agent-link success is claimed.
+
+---
+
+# Earlier recorded work (preserved)
+
 # Session progress — 2026-10-27 (-03)
 
 ## Owner retained live-session investigation

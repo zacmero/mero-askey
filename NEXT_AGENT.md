@@ -1,5 +1,9 @@
 # Next agent — current implementation state
 
+## Active home-lab priority — 2026-11-04
+
+The owner approved a private telephony lab. `mero-askey-pbx` is running on the workstation; Askey `192.168.1.250` uses LAN `br0` and registers as extension `10` to PBX `192.168.1.97`. The owner confirmed incoming ringing, hello-world playback and hearing their own six-second microphone recording played back. Preserve the active setup and private credentials. See [ASKEY-VOICE-001](docs/experiments/askey-voice-001.md), [deployment/rollback](lab/telephony/README.md), [dial-code/agent roadmap](docs/telephony-dial-code-lab.md), and the separate [future DSL copper lab](docs/dsl-copper-lab.md). Next: make digit forwarding/DTMF and a useful phone menu reproducible before connecting agents or individually chosen network actions. Earlier outgoing `19` attempts had no audible echo; do not label them successful.
+
 ## Goal and current milestone
 
 Run a minimal native program on the owner's Askey RTV9015VW. **COMPLETE (Roadmap Steps 1–4 verified).** Genuine native MIPS32 execution on the Askey RTV9015VW is fully demonstrated, independently verified via mailbox readback, and documented in [ASKEY-NET-010](docs/experiments/askey-net-010.md). The owned allocation was released cleanly (`held=false`) and baseline filesystem inventory verified. Complete hardware specs verified on silicon ([docs/hardware-specs-and-baremetal.md](docs/hardware-specs-and-baremetal.md)). **Next horizon: memory scaling, interactive two-way I/O architectures (TCP socket bind shell, shared-memory ring buffer, Telnet CLI hooking), and home lab utilities.** Detailed roadmap: [docs/next_experiments.md](docs/next_experiments.md).

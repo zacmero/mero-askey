@@ -1,0 +1,13 @@
+services:
+  pbx:
+    build: .
+    image: mero-askey-pbx:local
+    container_name: mero-askey-pbx
+    ports:
+      - "192.168.1.97:5060:5060/udp"
+      - "192.168.1.97:10000-10019:10000-10019/udp"
+    restart: "no"
+    volumes:
+      - ../../.local/telephony-pbx/etc:/etc/asterisk:ro
+    security_opt:
+      - no-new-privileges:true

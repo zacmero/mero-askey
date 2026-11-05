@@ -1,7 +1,7 @@
 # Telephony pilot handoff — Motorola MOTO700 + Askey RTV9015VW
 
 **Recorded:** 2026-11-04 (America/Sao_Paulo)  
-**Status:** documentation/research only; **no phone-to-Askey test, SIP registration, call, ring, or live device modification has been performed by this handoff**.  
+**Status, updated 2026-11-04:** The private PBX is running and the Askey phone line is registered as extension **10**. The owner confirmed **dial tone, incoming ringing, hello-world playback, and hearing their own six-second microphone recording played back**. This proves a private call with audio in both directions. Telephone-originated echo, DTMF menus, voice-agent links and network-command actions remain separate next tests. See [ASKEY-VOICE-001](experiments/askey-voice-001.md).
 **Purpose:** Use the owner's available Motorola MOTO700 cordless telephone as the first analog handset for a self-hosted Askey/VoIP/voice-agent experiment, before replacing it with a vintage rotary telephone.
 
 ## 1. Exact device and evidence
@@ -110,5 +110,7 @@ A mechanical rotary dial sends **loop-disconnect pulses**. The MOTO700's `PULSO`
 7. [ASKEY-NET-010](experiments/askey-net-010.md), [ASKEY-NET-011](experiments/askey-net-011.md), [telephony architecture proposal](telephony-and-voice-automation.md).
 
 ## 7. Handoff decision
+
+Current implementation tracks the [telephone interface and dial-code lab](telephony-dial-code-lab.md). The separate [future DSL copper lab](dsl-copper-lab.md) records the owner's additional learning experiment. Existing numbered steps above retain their original proposed-test status unless a dated experiment reports completion.
 
 **Start with the hardware already present**, not new purchases. Confirm base/handset power and DECT registration first, then verify basic Askey analog-line behavior and investigate local SIP configuration. Use the MOTO700 in **DTMF** mode for the first PBX/agent calls. The eventual rotary phone becomes a separate analog/pulse/bell compatibility experiment. Record each newly observed result in a dated `docs/experiments/askey-voice-00x.md` before declaring another milestone.

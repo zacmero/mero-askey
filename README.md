@@ -24,12 +24,16 @@ Direct memory-mapped I/O (MMIO) register reads confirmed the exact hardware spec
 
 ## Next Phase: Interactive I/O, Memory Scaling & Lab Topology
 
+**Private telephony milestone — 2026-11-04:** The MOTO700/Askey line is registered to the self-hosted PBX as extension `10`. The owner confirmed incoming ringing, hello-world audio and hearing a six-second microphone recording played back. [ASKEY-VOICE-001](docs/experiments/askey-voice-001.md) records the live setup, errors/fixes and private evidence. DTMF menus, agent links and network actions are the next experiments.
+
 The project is transitioning from a minimal execution proof to building interactive home lab tools:
 - [**Network Migration & DHCP Deactivation (ASKEY-NET-011)**](docs/experiments/askey-net-011.md): Migrated LAN IP to static `192.168.1.250` and permanently disabled DHCP server daemon to enable direct unmanaged switch connection from `mero-machine`.
 - [**Master Guide to Next Implementations & Lab Topology**](docs/guide-next-implementations.md): Complete guide to direct `mero-machine` connection, switch safety/DHCP risks, hard reset recovery, and interactive architectures.
 - [**Hardware Specs & Phone Port Analysis**](docs/hardware-specs-and-baremetal.md): Low-level memory architecture, MMIO registers, and physical RJ11 Phone (FXS) port analysis (-48V DC, 90V AC ring generation, Realtek VoIP/DTMF subsystem).
-- [**Motorola MOTO700 Telephony Pilot Handoff**](docs/telephony-moto700-pilot-handoff.md): Owner's available DECT 6.0 cordless handset, verified manual/specifications, safe power requirements, and stepwise Askey FXS → SIP/PBX → voice-agent testing plan (no live phone tests claimed).
+- [**Motorola MOTO700 Telephony Pilot Handoff**](docs/telephony-moto700-pilot-handoff.md): Working private PBX registration and incoming audio tests, handset documentation, and remaining DTMF/voice-agent experiments.
 - [**Telephony, Voice AI & Home Lab Automation Guide**](docs/telephony-and-voice-automation.md): Complete guide to using the Askey FXS phone port for local room intercoms, phoning an AI agent (Whisper/LLM/TTS over SIP), DTMF keypad automation, and physical alert ringing.
+- [**Telephone interface and dial-code lab**](docs/telephony-dial-code-lab.md): Current phone observations, proposed extensions, voice-agent links and fixed network-action codes; [live read-only audit](docs/experiments/askey-voice-001.md).
+- [**Future private DSL copper lab**](docs/dsl-copper-lab.md): Complementary modem roles, required peer equipment, link measurements and private network experiments over a copper pair.
 - [**Next Experiments Roadmap**](docs/next_experiments.md): Memory scaling to megabytes (`sys_mem_alloc` at `0x80011b74`), the 3 two-way I/O architectures (TCP socket bind shell, shared-memory ring buffer, Telnet CLI hooking), and practical home lab utility concepts (micro-iperf server, hardware packet tap).
 
 
