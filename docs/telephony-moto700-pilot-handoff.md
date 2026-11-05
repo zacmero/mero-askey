@@ -2,6 +2,8 @@
 
 **Recorded:** 2026-11-04 (America/Sao_Paulo)  
 **Status, updated 2026-11-04:** The private PBX is running and the Askey phone line is registered as extension **10**. The owner confirmed **dial tone, incoming ringing, hello-world playback, and hearing their own six-second microphone recording played back**. This proves a private call with audio in both directions. Telephone-originated echo, DTMF menus, voice-agent links and network-command actions remain separate next tests. See [ASKEY-VOICE-001](experiments/askey-voice-001.md).
+
+**Keypad/menu continuation:** [ASKEY-VOICE-002](experiments/askey-voice-002.md) now confirms in-call digit reception, a spoken menu, option `2` running the fixed bounded Askey connection check and reporting success, and `0` hanging up. Outgoing short-code dialing and voice-agent bridges remain unverified.
 **Purpose:** Use the owner's available Motorola MOTO700 cordless telephone as the first analog handset for a self-hosted Askey/VoIP/voice-agent experiment, before replacing it with a vintage rotary telephone.
 
 ## 1. Exact device and evidence

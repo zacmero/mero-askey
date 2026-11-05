@@ -9,5 +9,6 @@ services:
     restart: "no"
     volumes:
       - ../../.local/telephony-pbx/etc:/etc/asterisk:ro
+      - ../../.local/telephony-pbx/sounds:/usr/share/asterisk/sounds/custom:ro
     security_opt:
       - no-new-privileges:true

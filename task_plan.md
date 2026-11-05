@@ -9,6 +9,7 @@ Goal: document the future DSL copper lab and dial-code automation, then establis
 3. Inspect live voice settings/status through authenticated read-only operations — complete.
 4. Prepare the smallest justified PBX experiment, with a concrete configuration and rollback — complete. Owner explicitly approved and the deployment/voice change were applied; registration and dial tone are confirmed.
 5. Verify documentation/tools and run handset call tests — complete. Owner confirmed incoming ringing, hello-world audio and six-second microphone recording/playback. The call path works in both directions. Outgoing digit/DTMF menus are the next separate experiment.
+6. Keypad and menu continuation — complete. Initial milestone committed/pushed as 2565e5b. Owner confirmed digit 7 spoken back, then menu option 2's successful connection announcement and option 0 hang-up. The menu is bounded and uses local prompts plus one fixed three-second Askey TCP-port check.
 
 Persistent Askey voice changes need an explicit operation and rollback under AGENTS.md. Prepare and review the actual fields before deciding whether a change is covered by the owner's instruction. No factory reset, DSL hookup or firmware write is part of this task.
 

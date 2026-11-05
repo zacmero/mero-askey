@@ -1,5 +1,9 @@
 # Telephony progress — 2026-11-04
 
+Committed and pushed the first telephony milestone as 2565e5b. Continued with an incoming keypad test: owner confirmed hearing seven after pressing 7. Added an incoming menu, local speech prompts and a fixed three-second Askey TCP connection check; requested the owner test menu option 2 then 0. No further router setting change was required.
+
+Owner confirmed the menu's successful connection result and option 0 hang-up. Keypad-to-network-action-to-spoken-result path is demonstrated. Outgoing short-code forwarding and agent runtime integration remain separate work.
+
 Reviewed the telephony handoff and archived settings, confirmed the current workstation route and recorded neighbor identity, and inventoried available local tools/listeners. No voice setting or PBX service has been changed.
 
 Added the DSL copper guide, dial-code/voice-interface guide, links and baseline experiment. The read-only voice inspector passed live and saved a fresh export matching ASKEY-NET-011. Prepared private endpoint credentials and a minimal container PBX configuration. Container image build is in progress; no Askey voice changes have been applied.

@@ -21,6 +21,8 @@ MOTO700 — Askey PHONE/FXS — Ethernet — private PBX
 
 ## Proposed numbering — not active assignments
 
+Update: in-call keypad reception is now verified. The implemented menu has keys `1` audio, `2` a fixed bounded Askey TCP-port check, `9` repeat and `0` hang-up. Extension `20` routes to it, but phone-originated short-code forwarding still needs verification. See [ASKEY-VOICE-002](experiments/askey-voice-002.md). Other codes in the table remain proposed or separately unverified.
+
 | Code | Intended behavior | First verification |
 |---|---|---|
 | `10` | MOTO700 endpoint | PBX rings the handset; answer and hang up |

@@ -15,6 +15,7 @@ rtk python3 tools/prepare_telephony_pbx.py
 rtk docker compose -f lab/telephony/compose.yaml build
 rtk python3 tools/check_telephony_pbx.py
 rtk docker compose -f lab/telephony/compose.yaml up -d
+rtk python3 tools/build_telephony_prompts.py
 rtk docker exec mero-askey-pbx asterisk -rx 'pjsip show contacts'
 ```
 
@@ -29,7 +30,7 @@ The preparation tool reuses the existing private password; it does not rotate a 
 | `*20` | Fixed “hello world” audio | Handset test pending; not live system status |
 | `*29` | Prompt, collect one digit, speak that digit | Handset test pending; star-code forwarding unverified |
 
-No dial code executes a network command yet. Proposed fixed actions and agent routes are documented in the [dial-code lab](../../docs/telephony-dial-code-lab.md).
+The owner-confirmed in-call digit test received `7` and spoke seven back. The menu (extension `20` / context `lab-menu`) offers `1` audio, `2` the fixed Askey TCP-port check, `9` repeat and `0` hang-up. Its command has a three-second bound and no caller-controlled arguments. The owner confirmed the successful spoken connection result on `2` and hang-up on `0`. Phone-originated short-code forwarding remains unverified. See [ASKEY-VOICE-002](../../docs/experiments/askey-voice-002.md). Other fixed actions and agent routes remain proposals in the [dial-code lab](../../docs/telephony-dial-code-lab.md).
 
 The owner-authorized incoming playback and record/playback tests use CLI origination and the `lab-audio-selftest` context. The one-off recording route has a fixed filename; preserve its recording and choose a new filename before reusing it. Private recording evidence is retained under `.local/askey-voice-001/`; no audio is committed or sent to an external voice service.
 
