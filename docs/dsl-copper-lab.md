@@ -14,6 +14,14 @@ Private server/LAN — compatible DSLAM/CO peer — isolated copper pair — Ask
 
 DSL mode, annex, supported profiles and framing must be checked on both endpoints before choosing a peer. Do not infer VDSL compatibility from the model name. The pair must be isolated from household telephone wiring, the public telephone network and active FXS outputs.
 
+## Accessory from owner photo: Opticom MF42T (2026-11-05)
+
+Owner has an **Opticom MF42T** ADSL microfilter (old ANATEL identification **0030-07-1714**, 2007 listing), visually labeled **Linha** (incoming), **Telefone** (filtered voice) and **ADSL** (unfiltered DSL/modem). It is a filter/splitter of **frequency bands on one existing line**, not a second modem, a DSLAM, a signal source or a two-phone parallel splitter. No bench test was performed.
+
+Its normal historical circuit is `telephone-company copper line → Linha → ADSL modem on ADSL socket + analog phone on Telefone socket`. That is documented as an ADSL-era accessory; **do not assume it is suitable for every VDSL2 profile**, especially higher-frequency modes, without electrical specifications and a verified peer. The ADSL socket may expose live line conditions and is not an alternate phone or LAN jack.
+
+For a private Askey DSL experiment the real missing piece is a **known DSLAM/central-office-mode device**, and an isolated copper pair. Neither the microfilter nor the PM-1 wall box provides the missing CO transceiver. Do not connect Askey **PHONE/FXS** into its **DSL** port, into another FXS, or into unverified public wiring. Existing Askey-phone communication goes over Ethernet to Asterisk and does **not** require DSL. References: [Cisco ADSL troubleshooting](https://www.cisco.com/c/pt_br/support/docs/long-reach-ethernet-lre-digital-subscriber-line-xdsl/asymmetric-digital-subscriber-line-adsl/200456-Troubleshoot-ADSL-on-Cisco-Routers.html), [Cisco DSL back-to-back CO/CPE roles (SHDSL example)](https://www.cisco.com/c/pt_br/support/docs/wan/point-to-point-protocol-ppp/200636-EHWIC-4SHDSL-EA-Back-to-Back-SHDSL-Con.html).
+
 ## Learning experiments
 
 | Experiment | Observation | What it teaches |
